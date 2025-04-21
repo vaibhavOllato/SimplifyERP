@@ -34,9 +34,11 @@ import Setting from './pages/Setting';
 import OrderPage from './pages/OrderPage';
 import Settings from './pages/Setting';
 import CustomerListPage from './pages/CustomerListPage';
+import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
   return (
+    <AuthProvider>
     <Routes>
       {/* Landing Page does not need Layout, so we keep it separate */}
       <Route path="/" element={<LandingPage />} />
@@ -56,6 +58,7 @@ const App = () => {
         {/* <Route path="orders" element={<Orders />} /> */}
       </Route>
     </Routes>
+    </AuthProvider>
   );
 };
 

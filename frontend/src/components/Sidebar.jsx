@@ -96,6 +96,7 @@ import {
   Package,
   ShoppingCart,
   Settings,
+  Users ,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { FaSignOutAlt } from "react-icons/fa"; // Importing the Logout icon
@@ -110,7 +111,7 @@ const Sidebar = () => {
     { name: "Inventory", icon: <Package size={20} />, path: "/inventory" },
     { name: "Orders", icon: <ShoppingCart size={20} />, path: "/orders" }, // You can build this later
     { name: "Settings", icon: <Settings size={20} />, path: "/setting" },
-    { name: "Customer list", icon: <Settings size={20} />, path: "/customers" },
+    { name: "Customer list", icon: <Users size={20} />, path: "/customers" },
   ];
 
   // Function to handle logout modal opening
