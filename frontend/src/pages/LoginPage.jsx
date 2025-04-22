@@ -61,15 +61,16 @@
 
 // export default LoginPage;
 
-
-
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/landing/Navbar";
 import Footer from "../components/landing/Footer";
+import { useNotification } from "../context/NotificationProvider";
 
 const LoginPage = () => {
+  const { triggerNotification } = useNotification(); // Use the notification hook
+  const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -85,21 +86,37 @@ const LoginPage = () => {
     e.preventDefault();
     setError("");
     try {
-      const res = await axios.post("http://localhost:4000/api/users/login", formData);
+      const res = await axios.post(
+        "http://localhost:4000/api/users/login",
+        formData
+      );
       console.log("Login Success ✅", res.data);
 
       // Optionally save token or user in localStorage
       // localStorage.setItem("userToken", res.data.token);
 
-         // Store the token and user data in localStorage
-    localStorage.setItem("user", JSON.stringify(res.data.user)); // Assuming res.data contains the user object
-    localStorage.setItem("userToken", res.data.token); // Store the token separately
+      // Store the token and user data in localStorage
+      localStorage.setItem("user", JSON.stringify(res.data.user)); // Assuming res.data contains the user object
+      localStorage.setItem("userToken", res.data.token); // Store the token separately
+
+      // Trigger success notification
+    triggerNotification({
+      type: "success",
+      message: "Login successful!",
+    });
 
       // Redirect after successful login
       navigate("/dashboard"); // change to your desired page
     } catch (err) {
       console.error("Login Failed ❌", err);
       setError(err.response?.data?.message || "Login failed.");
+
+
+        // Trigger error notification
+    triggerNotification({
+      type: "error",
+      message: errorMsg,
+    });
     }
   };
 
@@ -114,7 +131,10 @@ const LoginPage = () => {
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Email Address
               </label>
               <input
@@ -129,7 +149,10 @@ const LoginPage = () => {
             </div>
 
             <div className="mb-6">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Password
               </label>
               <input

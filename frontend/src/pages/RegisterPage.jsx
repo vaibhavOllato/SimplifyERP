@@ -119,8 +119,6 @@
 
 // export default RegisterPage;
 
-
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -151,7 +149,10 @@ const RegisterPage = () => {
     setSuccess("");
 
     try {
-      const response = await axios.post("http://localhost:4000/api/users/register", formData);
+      const response = await axios.post(
+        "http://localhost:4000/api/users/register",
+        formData
+      );
       setSuccess("Registration successful!");
       navigate("/login");
     } catch (err) {
@@ -170,11 +171,19 @@ const RegisterPage = () => {
           </h2>
 
           {error && <p className="text-red-600 text-center mb-4">{error}</p>}
-          {success && <p className="text-green-600 text-center mb-4">{success}</p>}
+          {success && (
+            <p className="text-green-600 text-center mb-4">{success}</p>
+          )}
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
             <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="firstName"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 First Name
               </label>
               <input
@@ -189,7 +198,10 @@ const RegisterPage = () => {
             </div>
 
             <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="lastName"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Last Name
               </label>
               <input
@@ -203,8 +215,11 @@ const RegisterPage = () => {
               />
             </div>
 
-            <div className="md:col-span-2">
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+            <div>
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Phone Number
               </label>
               <input
@@ -218,8 +233,11 @@ const RegisterPage = () => {
               />
             </div>
 
-            <div className="md:col-span-2">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Email Address
               </label>
               <input
@@ -234,7 +252,10 @@ const RegisterPage = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Password
               </label>
               <input
@@ -249,7 +270,10 @@ const RegisterPage = () => {
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Confirm Password
               </label>
               <input
