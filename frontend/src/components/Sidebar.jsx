@@ -112,6 +112,8 @@ const Sidebar = () => {
     { name: "Orders", icon: <ShoppingCart size={20} />, path: "/orders" }, // You can build this later
     { name: "Settings", icon: <Settings size={20} />, path: "/setting" },
     { name: "Customer list", icon: <Users size={20} />, path: "/customers" },
+    { name: "Shop details", icon: <Users size={20} />, path: "/my-shop" },
+    { name: "Shop Register form", icon: <Users size={20} />, path: "/shop-register-form" },
   ];
 
   // Function to handle logout modal opening

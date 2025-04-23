@@ -1,24 +1,3 @@
-// import React from 'react';
-// import { Route, Routes } from 'react-router-dom';
-// import LandingPage from './LandingPage';
-// import LoginPage from './pages/LoginPage';
-// import RegisterPage from './pages/RegisterPage';
-// import Dashboard from './pages/Dashboard';
-
-// const App = () => {
-//   return (
-//     <Routes>
-//       {/* Define your routes here */}
-//       <Route path="/" element={<LandingPage />} />
-//       <Route path="/login" element={<LoginPage />} />
-//       <Route path="/register" element={<RegisterPage />} />
-//       <Route path="/dashboard" element={<Dashboard />} />
-//     </Routes>
-//   );
-// };
-
-// export default App;
-
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import LandingPage from "./LandingPage";
@@ -34,6 +13,9 @@ import Settings from "./pages/Setting";
 import CustomerListPage from "./pages/CustomerListPage";
 import { NotificationProvider } from "./context/NotificationProvider";
 import { AuthProvider } from "./context/AuthContext";
+import ShopPage from "./pages/ShopPage";
+import ShopRegisterForm from "./pages/ShopRegisterForm";
+// import { ShopProvider } from './context/ShopContext'; 
 
 const App = () => {
   return (
@@ -55,6 +37,8 @@ const App = () => {
             <Route path="setting" element={<Settings />} />
             <Route path="orders" element={<OrderPage />} />
             <Route path="customers" element={<CustomerListPage />} />
+            <Route path="my-shop" element={<ShopPage />} />
+            <Route path="shop-register-form" element={<ShopRegisterForm />} />
             {/* <Route path="orders" element={<Orders />} /> */}
           </Route>
         </Routes>

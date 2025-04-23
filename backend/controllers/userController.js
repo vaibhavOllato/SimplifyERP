@@ -1,7 +1,10 @@
-const crypto = require("crypto"); // built-in module
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import crypto from "crypto"; // built-in module
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+// import User from "../models/User"; 
+import User from "../models/User.js";
+
+
 
 
 const generateUserId = () => {
@@ -11,7 +14,7 @@ const generateUserId = () => {
 // Replace this with your actual secret and store it in .env
 const JWT_SECRET = process.env.JWT_SECRET;
 
-const registerUser = async (req, res) => {
+export const registerUser = async (req, res) => {
   const { firstName, lastName, phone, email, password, confirmPassword } =
     req.body;
 
@@ -66,7 +69,7 @@ const registerUser = async (req, res) => {
 
 
 
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
     const { email, password } = req.body;
   
     // Validation
@@ -91,7 +94,9 @@ const loginUser = async (req, res) => {
       const token = jwt.sign({ userId: user.userId, email: user.email }, process.env.JWT_SECRET, {
         expiresIn: "7d",
       });
-  
+      console.log(token);
+      
+      // res.status(200).json({ token }); 
       res.status(200).json({
         message: "Login successful.",
         token,
@@ -110,4 +115,4 @@ const loginUser = async (req, res) => {
   };
 
 
-module.exports = { registerUser, loginUser };
+// module.exports = { registerUser, loginUser };

@@ -97,8 +97,8 @@ const LoginPage = () => {
 
       // Store the token and user data in localStorage
       localStorage.setItem("user", JSON.stringify(res.data.user)); // Assuming res.data contains the user object
-      localStorage.setItem("userToken", res.data.token); // Store the token separately
-
+      localStorage.setItem("token", res.data.token); // Store the token separately
+      // console.log('User ID stored in localStorage:', response.data.userId);
       // Trigger success notification
     triggerNotification({
       type: "success",
