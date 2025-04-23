@@ -1,8 +1,13 @@
 import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import axios from "axios";
+import { useNotification } from "../context/NotificationProvider";
+
 
 const ShopRegisterForm = () => {
+    const { triggerNotification } = useNotification(); // Use the notification hook
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
   const {
     register,
     handleSubmit,
@@ -32,19 +37,21 @@ const ShopRegisterForm = () => {
       const userID = user?.userId;
 
       const payload = { ...data, userId: userID };
-      console.log("payload", payload);
+      // console.log("payload", payload);
 
       await axios.post(
-        "http://localhost:4000/api/shops/shop-register",
+        `${apiUrl}/shops/shop-register`,
         payload
       );
-      alert("Shop registered successfully!");
+      // alert("Shop registered successfully!");
+      triggerNotification("Shop registered successfully!");
       localStorage.setItem("shopRegistered", "true");
       // window.location.reload();
       reset();
     } catch (err) {
       console.error(err);
-      alert("Error registering shop.");
+      // alert("Error registering shop.");
+      triggerNotification("Error registering shop");
     }
   };
 
