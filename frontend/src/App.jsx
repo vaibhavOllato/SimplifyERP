@@ -32,7 +32,7 @@ const App = () => {
           {/* Apply the layout to Dashboard and any other pages that require Sidebar and Header */}
           <Route path="/" element={<Layout />}>
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="inventory" element={<InventoryPage />} />
+            {/* <Route path="inventory" element={<InventoryPage />} /> */}
             <Route path="inventory" element={<InventoryPage />} />
             <Route path="setting" element={<Settings />} />
             <Route path="orders" element={<OrderPage />} />
