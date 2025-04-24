@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 // import User from "../models/User"; 
 import User from "../models/User.js";
 import sendWelcomeEmail from '../services/emailService.js';
+import sendResetPasswordEmail from '../services/sendResetPasswordEmail.js';
+
 
 const generateUserId = () => {
   return "SimplifyERP" + Math.floor(100000 + Math.random() * 900000); // e.g., USR456783
@@ -128,4 +130,73 @@ export const logoutUser = (req, res) => {
     res.clearCookie("connect.sid"); // adjust cookie name if customized
     res.json({ message: "Logged out successfully" });
   });
+};
+
+
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // Check if the user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User with this email does not exist.' });
+    }
+
+    // Generate a reset token
+    const resetToken = crypto.randomBytes(20).toString('hex');
+    const resetPasswordExpire = Date.now() + 3600000; // 1 hour expiration
+
+    // Save the token and expiration in the user document
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpire = resetPasswordExpire;
+    await user.save();
+
+    // Send the email with the reset token
+    const resetPasswordLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+    await sendResetPasswordEmail(user.email, resetPasswordLink);
+
+    res.status(200).json({
+      message: 'Password reset email sent. Please check your inbox.',
+    });
+  } catch (err) {
+    console.error('Forgot password error:', err);
+    res.status(500).json({ message: 'Server error. Please try again later.' });
+  }
+};
+
+
+
+export const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    // Find the user by reset password token and ensure it is not expired
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpire: { $gt: Date.now() }, // Token must not have expired
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired token.' });
+    }
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Update the user's password and clear the reset token and expiration
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save();
+
+    res.status(200).json({
+      message: 'Password reset successful! You can now log in with your new password.',
+    });
+  } catch (err) {
+    console.error('Reset password error:', err);
+    res.status(500).json({ message: 'Server error. Please try again later.' });
+  }
 };

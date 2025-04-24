@@ -6,7 +6,6 @@ import Footer from "../components/landing/Footer";
 import { useNotification } from "../context/NotificationProvider";
 import { useAuth } from "../context/AuthContext"; // adjust the path if needed
 
-
 const LoginPage = () => {
   const { triggerNotification } = useNotification(); // Use the notification hook
   // const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
@@ -28,17 +27,13 @@ const LoginPage = () => {
     e.preventDefault();
     setError("");
     try {
-      const res = await axios.post(
-        `${apiUrl}/users/login`,
-        formData,
-        {
-          withCredentials: true, // 🔥 THIS IS REQUIRED TO ENABLE SESSION COOKIES!
-        }
-      );
+      const res = await axios.post(`${apiUrl}/users/login`, formData, {
+        withCredentials: true, // 🔥 THIS IS REQUIRED TO ENABLE SESSION COOKIES!
+      });
       console.log("Login Success ✅", res.data);
 
-       // Set user in context ✅
-    login(res.data.user); 
+      // Set user in context ✅
+      login(res.data.user);
 
       // Store the token and user data in localStorage
       localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -122,6 +117,22 @@ const LoginPage = () => {
             Don’t have an account?{" "}
             <a href="/register" className="text-cyan-600 hover:underline">
               Register here
+            </a>
+          </p>
+
+          {/* <p className="text-sm text-center text-gray-500 mt-6">
+           Y
+            <a href="/forgot-password" className="text-cyan-600 hover:underline">
+              Forget password
+            </a>
+          </p> */}
+          <p className="text-sm text-center text-gray-500 mt-6">
+            Forgot your password?{" "}
+            <a
+              href="/forgot-password"
+              className="text-cyan-600 hover:underline"
+            >
+              Click here to reset it
             </a>
           </p>
         </div>

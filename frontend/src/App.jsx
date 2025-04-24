@@ -15,6 +15,8 @@ import { NotificationProvider } from "./context/NotificationProvider";
 import { AuthProvider } from "./context/AuthContext";
 import ShopPage from "./pages/ShopPage";
 import ShopRegisterForm from "./pages/ShopRegisterForm";
+import ForgotPasswordPage from "./components/ForgotPasswordPage";
+import ResetPasswordPage from "./components/ResetPasswordPage";
 // import { ShopProvider } from './context/ShopContext'; 
 
 const App = () => {
@@ -29,6 +31,9 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+
           {/* Apply the layout to Dashboard and any other pages that require Sidebar and Header */}
           <Route path="/" element={<Layout />}>
             <Route path="dashboard" element={<Dashboard />} />
@@ -41,6 +46,9 @@ const App = () => {
             <Route path="shop-register-form" element={<ShopRegisterForm />} />
             {/* <Route path="orders" element={<Orders />} /> */}
           </Route>
+
+          {/* Forgot and Reset Password pages */}
+        
         </Routes>
       </NotificationProvider>
     </AuthProvider>

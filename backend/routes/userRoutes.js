@@ -1,24 +1,19 @@
-// const express = require('express');
 import express from 'express';
+import { registerUser, loginUser, checkLoginStatus, logoutUser } from '../controllers/userController.js'; 
+import { forgotPassword, resetPassword } from '../controllers/userController.js';
 
-// const { registerUser, loginUser } = require('../controllers/userController');
-// import { registerUser, loginUser } from '../controllers/userController';
-import { registerUser, loginUser, checkLoginStatus, logoutUser } from '../controllers/userController.js'; // Notice the .js extension
-
-
-// const { loginUser } = require("../controllers/");
 
 const router = express.Router();
 
 router.post('/register', registerUser);
-// In routes/userRoutes.js
 router.get("/ls", checkLoginStatus);
 router.post("/login", loginUser);
 
+// forget password 7 reset password
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password/:token', resetPassword);
 
-// Add to routes
 router.post("/logout", logoutUser);
 
-// module.exports = router;
-export default router;  // This ensures default export is provided
+export default router;  
 
