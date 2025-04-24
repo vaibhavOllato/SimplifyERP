@@ -60,7 +60,7 @@ const LoginPage = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />
-      <main className="flex-grow flex items-center justify-center mt-24 px-4">
+      <main className="flex-grow flex items-center justify-center mt-24 mb-9 px-4">
         <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg border border-gray-200">
           <h2 className="text-3xl font-bold text-center text-cyan-600 mb-6">
             Login to Your Account
