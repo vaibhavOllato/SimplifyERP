@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/landing/Navbar";
 import Footer from "../components/landing/Footer";
 import { useNotification } from "../context/NotificationProvider";
+import { useAuth } from "../context/AuthContext"; // adjust the path if needed
+
 
 const LoginPage = () => {
   const { triggerNotification } = useNotification(); // Use the notification hook
@@ -16,6 +18,8 @@ const LoginPage = () => {
   });
   const [error, setError] = useState("");
 
+  const { login } = useAuth();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -26,9 +30,15 @@ const LoginPage = () => {
     try {
       const res = await axios.post(
         `${apiUrl}/users/login`,
-        formData
+        formData,
+        {
+          withCredentials: true, // 🔥 THIS IS REQUIRED TO ENABLE SESSION COOKIES!
+        }
       );
       console.log("Login Success ✅", res.data);
+
+       // Set user in context ✅
+    login(res.data.user); 
 
       // Store the token and user data in localStorage
       localStorage.setItem("user", JSON.stringify(res.data.user));

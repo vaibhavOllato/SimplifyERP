@@ -1,45 +1,54 @@
+
 import { createContext, useState, useEffect, useContext } from "react";
+import axios from "axios";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  // Check login status using session
+  const checkSession = async () => {
     try {
-      const savedUser = localStorage.getItem("user");
-      return savedUser ? JSON.parse(savedUser) : null;
+      const res = await axios.get("http://localhost:5000/api/users/ls", {
+        withCredentials: true,
+      });
+
+      console.log("Session check response:", res.data); // 👈 log this
+
+
+      if (res.data.loggedIn) {
+        setUser(res.data.user);
+      } else {
+        setUser(null);
+      }
     } catch (error) {
-      console.error("Failed to parse user data from localStorage:", error);
-      return null;
+      console.error("Error checking login session:", error);
+      setUser(null);
     }
-  });
-
-  const login = ({ first_name, last_name, id, token, phone, userId, email }) => {
-    const userData = {
-      first_name,
-      last_name,
-      id,
-      phone,
-      userId,
-      email,
-      token,
-    };
-
-    try {
-      localStorage.setItem("user", JSON.stringify(userData));
-      localStorage.setItem("token", token);
-      setUser(userData);
-    } catch (error) {
-      console.error("Failed to save user data to localStorage:", error);
+    finally {
+      setLoading(false); // Done loading
     }
   };
 
-  const logout = () => {
+  useEffect(() => {
+    checkSession();
+  }, []);
+
+  const login = (userData) => {
+    // optional if you handle login via redirect or already set session
+    setUser(userData); 
+    // setUser(userData);
+  };
+
+  const logout = async () => {
     try {
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
+      await axios.post("http://localhost:5000/api/users/logout", {}, {
+        withCredentials: true,
+      });
       setUser(null);
     } catch (error) {
-      console.error("Failed to remove user data from localStorage:", error);
+      console.error("Logout failed:", error);
     }
   };
 
@@ -50,5 +59,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// ✅ Export useAuth hook so it can be used in components
 export const useAuth = () => useContext(AuthContext);
