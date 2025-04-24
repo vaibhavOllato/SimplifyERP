@@ -4,7 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.js';
 import shopRoutes from './routes/shopRoutes.js';
-
+// import dotenv from 'dotenv';
+// dotenv.config();
 dotenv.config();
 
 const app = express();

@@ -3,9 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 // import User from "../models/User"; 
 import User from "../models/User.js";
-
-
-
+import sendWelcomeEmail from '../services/emailService.js';
 
 const generateUserId = () => {
   return "SimplifyERP" + Math.floor(100000 + Math.random() * 900000); // e.g., USR456783
@@ -59,6 +57,9 @@ export const registerUser = async (req, res) => {
     });
 
     await newUser.save();
+
+     // Send the welcome email
+     await sendWelcomeEmail(email, firstName);
 
     res.status(201).json({ message: "User registered successfully.", userId });
   } catch (error) {
