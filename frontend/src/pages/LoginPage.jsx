@@ -4,11 +4,10 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/landing/Navbar";
 import Footer from "../components/landing/Footer";
 import { useNotification } from "../context/NotificationProvider";
-import { useAuth } from "../context/AuthContext"; // adjust the path if needed
+import { useAuth } from "../context/AuthContext"; 
 
 const LoginPage = () => {
-  const { triggerNotification } = useNotification(); // Use the notification hook
-  // const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
+  const { triggerNotification } = useNotification(); 
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({

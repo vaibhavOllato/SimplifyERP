@@ -170,6 +170,11 @@ export const forgotPassword = async (req, res) => {
 export const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
+  console.log('Token from URL:', token);
+
+  console.log('🔐 Reset Password Endpoint Hit');
+  // console.log('Token:', token);
+  console.log('Password:', password);
 
   try {
     // Find the user by reset password token and ensure it is not expired
@@ -177,6 +182,8 @@ export const resetPassword = async (req, res) => {
       resetPasswordToken: token,
       resetPasswordExpire: { $gt: Date.now() }, // Token must not have expired
     });
+
+    console.log('User Found:', user);
 
     if (!user) {
       return res.status(400).json({ message: 'Invalid or expired token.' });

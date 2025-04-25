@@ -33,12 +33,15 @@ const RegisterPage = () => {
 
     try {
       const response = await axios.post(`${apiUrl}/users/register`, formData);
-      // setSuccess("Registration successful!");
+      console.log("Registration Success:", response.data);
       triggerNotification("Registration successful!");
+
       navigate("/login");
     } catch (err) {
-      // setError(err.response?.data?.message || "Registration failed.");
-      triggerNotification(err.response?.data?.message || "Registration failed.");
+      console.log("Registration Error:", err);
+      triggerNotification(
+        err.response?.data?.message || "Registration failed."
+      );
     }
   };
 
@@ -46,7 +49,7 @@ const RegisterPage = () => {
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />
 
-      <main className="flex-grow flex items-center justify-center px-4 mt-24">
+      <main className="flex-grow flex items-center justify-center mb-9 px-4 mt-24">
         <div className="w-full max-w-2xl bg-white p-8 rounded-xl shadow-lg border border-gray-200">
           <h2 className="text-3xl font-bold text-center text-cyan-600 mb-6">
             Create Your Account
