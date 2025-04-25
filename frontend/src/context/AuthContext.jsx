@@ -1,21 +1,20 @@
-
 import { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   // Check login status using session
   const checkSession = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/users/ls", {
+      const res = await axios.get(`${apiUrl}/users/ls`, {
         withCredentials: true,
       });
 
-      console.log("Session check response:", res.data); // 👈 log this
-
+      console.log("Session check response:", res.data);
 
       if (res.data.loggedIn) {
         setUser(res.data.user);
@@ -25,8 +24,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Error checking login session:", error);
       setUser(null);
-    }
-    finally {
+    } finally {
       setLoading(false); // Done loading
     }
   };
@@ -37,15 +35,19 @@ export const AuthProvider = ({ children }) => {
 
   const login = (userData) => {
     // optional if you handle login via redirect or already set session
-    setUser(userData); 
+    setUser(userData);
     // setUser(userData);
   };
 
   const logout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/users/logout", {}, {
-        withCredentials: true,
-      });
+      await axios.post(
+        `${apiUrl}/users/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
       setUser(null);
     } catch (error) {
       console.error("Logout failed:", error);

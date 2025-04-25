@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/landing/Navbar";
 import Footer from "../components/landing/Footer";
 import { useNotification } from "../context/NotificationProvider";
-import { useAuth } from "../context/AuthContext"; 
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
-  const { triggerNotification } = useNotification(); 
+  const { triggerNotification } = useNotification();
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -30,40 +30,47 @@ const LoginPage = () => {
         withCredentials: true, // 🔥 THIS IS REQUIRED TO ENABLE SESSION COOKIES!
       });
       console.log("Login Success ✅", res.data);
-  
+
       // Extract user data from the response
       const { userId, firstName, lastName, email, phone } = res.data.user;
-  
+
       // Set user in context ✅
       login(res.data.user);
-  
+
       // Store user data in sessionStorage
       sessionStorage.setItem("userId", userId);
-      sessionStorage.setItem("userProfile", JSON.stringify({ firstName, lastName, email, phone }));
+      sessionStorage.setItem(
+        "userProfile",
+        JSON.stringify({ firstName, lastName, email, phone })
+      );
       sessionStorage.setItem("userProfile", JSON.stringify(res.data.user));
       localStorage.setItem("profileImageUrl", res.data.user.imageUrl);
-      
+
       // Store the token and user data in localStorage
       localStorage.setItem("token", res.data.token); // Store the token separately
-  
+      // localStorage.setItem("token", token); 
+      console.log("Saved token ✅", localStorage.getItem("token"));
+
+      console.log("Full login response:", res.data);
+
       triggerNotification({
         type: "success",
         message: "Login successful!",
       });
-  
+
       // Redirect after successful login
       navigate("/dashboard"); // change to your desired page
     } catch (err) {
       console.error("Login Failed ❌", err);
       setError(err.response?.data?.message || "Login failed.");
-  
+
       triggerNotification({
         type: "error",
         message: errorMsg,
       });
     }
   };
-  
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />

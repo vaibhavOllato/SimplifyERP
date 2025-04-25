@@ -38,7 +38,7 @@ const CustomerListPage = () => {
     <div className="p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Customer List</h2>
+        <h2 className="text-2xl font-bold text-gray-500">Customer List</h2>
       </div>
 
       {/* Search Input */}

@@ -29,7 +29,9 @@ const LogoutModal = ({ open, handleClose }) => {
           <FaSignOutAlt size={24} />
         </div>
 
-        <h2 className="text-xl font-semibold text-center text-textSecondary">Log Out?</h2>
+        <h2 className="text-xl font-semibold text-center text-textSecondary">
+          Log Out?
+        </h2>
         <p className="text-center text-gray-600 mt-2">
           Are you sure you want to end your session?
         </p>

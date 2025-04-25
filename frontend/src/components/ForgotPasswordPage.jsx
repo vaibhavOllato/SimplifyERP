@@ -11,19 +11,6 @@ const ForgotPasswordPage = () => {
   const [messageType, setMessageType] = useState("");
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-  // Handle form submission
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const res = await axios.post(`${apiUrl}/users/forgot-password`, { email });
-  //     setMessage(res.data.message);
-  //     triggerNotification(res.data.message);
-  //   } catch (err) {
-  //     setMessage('Error: ' + (err.response?.data?.message || 'Something went wrong'));
-  //     triggerNotification('Error: ' + (err.response?.data?.message || 'Something went wrong'));
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -32,12 +19,20 @@ const ForgotPasswordPage = () => {
       });
       setMessage(res.data.message);
       setMessageType("success");
-      triggerNotification(res.data.message, "success");
+      // triggerNotification(res.data.message, "success");
+      triggerNotification({
+        type: "success",
+        message: res.data.message || "success",
+      });
     } catch (err) {
       const errorMsg = err.response?.data?.message || "Something went wrong";
       setMessage("Error: " + errorMsg);
       setMessageType("error");
-      triggerNotification("Error: " + errorMsg, "error");
+      // triggerNotification("Error: " + errorMsg, "error");
+      triggerNotification({
+        type: "success",
+        message: "Error: " + errorMsg || "error",
+      });
     }
   };
 

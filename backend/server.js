@@ -35,14 +35,14 @@ cloudinary.config({
 const upload = multer({ dest: "uploads/" });
 
 // POST endpoint to upload profile picture
-app.post("/upload-profile", upload.single("image"), uploadProfilePicture);
+app.post("/api/upload-profile", upload.single("image"), uploadProfilePicture);
 
 // Session setup
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "fallbackSecret",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URI,
       collectionName: "sessions",
@@ -51,6 +51,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
       sameSite: "lax",
       secure: false, // Set to true in production with HTTPS
+      httpOnly: true,
     },
   })
 );

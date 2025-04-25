@@ -34,14 +34,22 @@ const RegisterPage = () => {
     try {
       const response = await axios.post(`${apiUrl}/users/register`, formData);
       console.log("Registration Success:", response.data);
-      triggerNotification("Registration successful!");
+      // triggerNotification("Registration successful!");
+      triggerNotification({
+        type: "success",
+        message: "Registration successful!",
+      });
 
       navigate("/login");
     } catch (err) {
       console.log("Registration Error:", err);
-      triggerNotification(
-        err.response?.data?.message || "Registration failed."
-      );
+      // triggerNotification(
+      //   err.response?.data?.message || "Registration failed."
+      // );
+      triggerNotification({
+        type: "error",
+        message: `err.response?.data?.message || "Registration failed."`,
+      });
     }
   };
 

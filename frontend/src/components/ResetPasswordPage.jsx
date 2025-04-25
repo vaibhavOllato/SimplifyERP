@@ -22,10 +22,14 @@ const ResetPasswordPage = () => {
     if (!password || password.trim().length < 8) {
       setMessage("Password must be at least 6 characters long.");
       setMessageType("error");
-      triggerNotification(
-        "Password must be at least 6 characters long.",
-        "error"
-      );
+      // triggerNotification(
+      //   "Password must be at least 6 characters long.",
+      //   "error"
+      // );
+      triggerNotification({
+        type: "error",
+        message: "Password must be at least 8 characters long.",
+      });
       return;
     }
 
@@ -35,7 +39,11 @@ const ResetPasswordPage = () => {
       });
       setMessage(res.data.message);
       setMessageType("success");
-      triggerNotification(res.data.message, "success");
+      // triggerNotification(res.data.message, "success");
+      triggerNotification({
+        type: "error",
+        message: res.data.message|| "success",
+      });
 
       setTimeout(() => {
         navigate("/login");
@@ -45,10 +53,10 @@ const ResetPasswordPage = () => {
         "Error: " + (err.response?.data?.message || "Something went wrong")
       );
       setMessageType("error");
-      triggerNotification(
-        "Error: " + (err.response?.data?.message || "Something went wrong"),
-        "error"
-      );
+      triggerNotification({
+        type: "error",
+        message:  "Error: " + (err.response?.data?.message || "Something went wrong"),
+      });
     }
   };
 
