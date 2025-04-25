@@ -62,9 +62,9 @@ const Header = () => {
             </div>
           )}
 
-          <div className="text-sm text-right">
+          <div className="text-sm text-left">
             <p className="font-semibold text-white">{user.firstName} {user.lastName}</p>
-            <p className="text-xs text-gray-200">{user.email}</p>
+            <p className="text-sm text-gray-200">{user.email}</p>
           </div>
         </div>
       ) : (
