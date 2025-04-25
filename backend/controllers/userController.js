@@ -95,7 +95,8 @@ export const loginUser = async (req, res) => {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      phone: user.phone
+      phone: user.phone,
+      imageUrl: user.imageUrl || null, 
     };
 
     console.log("Session after setting user:", req.session);

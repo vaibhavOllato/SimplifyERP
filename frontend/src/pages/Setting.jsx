@@ -46,7 +46,7 @@ const Settings = () => {
   useEffect(() => {
     const userData = JSON.parse(sessionStorage.getItem("userProfile"));
     const userId = sessionStorage.getItem("userId");
-  
+
     if (userData) {
       setProfile({
         firstName: userData.firstName,
@@ -59,7 +59,7 @@ const Settings = () => {
     } else {
       console.log("No user data found in session.");
     }
-  
+
     // Check if there's an image URL saved in localStorage
     const savedImageUrl = localStorage.getItem("profileImageUrl");
     if (savedImageUrl) {
@@ -69,7 +69,6 @@ const Settings = () => {
       }));
     }
   }, []);
-  
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -131,17 +130,17 @@ const Settings = () => {
 
   // const handleSave = async () => {
   //   const userId = sessionStorage.getItem("userId"); // Fetch userId from sessionStorage
-  
+
   //   if (!userId) {
   //     console.error("User ID is missing from session.");
   //     return;
   //   }
-  
+
   //   // If there's an image file, upload it first
   //   if (image) {
   //     const formData = new FormData();
   //     formData.append("image", image);
-  
+
   //     try {
   //       const response = await axios.post(
   //         "http://localhost:5000/upload-profile",
@@ -152,7 +151,7 @@ const Settings = () => {
   //           },
   //         }
   //       );
-  
+
   //       const imageUrl = response.data.url;
   //       setProfile((prevProfile) => ({ ...prevProfile, imageUrl })); // Update the profile with the new image URL
   //       localStorage.setItem("profileImageUrl", imageUrl); // Store in localStorage
@@ -162,7 +161,7 @@ const Settings = () => {
   //       return; // Stop execution if image upload fails
   //     }
   //   }
-  
+
   //   // Send the profile details (including firstName, lastName, email, phone)
   //   try {
   //     const response = await axios.put(
@@ -175,7 +174,7 @@ const Settings = () => {
   //         phone: profile.phone,
   //       }
   //     );
-  
+
   //     console.log(response.data);
   //     setEditing(false); // Exit editing mode after saving
   //   } catch (error) {
@@ -183,20 +182,21 @@ const Settings = () => {
   //   }
   // };
 
-
   const handleSave = async () => {
     const userId = sessionStorage.getItem("userId"); // Fetch userId from sessionStorage
-  
+
     if (!userId) {
       console.error("User ID is missing from session.");
       return;
     }
-  
+
     // If there's an image file, upload it first
     if (image) {
       const formData = new FormData();
       formData.append("image", image);
-  
+      // formData.append("file", selectedImageFile);
+      formData.append("userId", userId); // Pass userId if needed
+
       try {
         const response = await axios.post(
           "http://localhost:5000/upload-profile",
@@ -207,18 +207,22 @@ const Settings = () => {
             },
           }
         );
-  
+
         const imageUrl = response.data.url;
-        setProfile((prevProfile) => ({ ...prevProfile, imageUrl })); // Update the profile with the new image URL
+        // setProfile((prevProfile) => ({ ...prevProfile, imageUrl })); // Update the profile with the new image URL
+        setProfile((prev) => ({ ...prev, imageUrl }));
         localStorage.setItem("profileImageUrl", imageUrl); // Store in localStorage
-        sessionStorage.setItem("userProfile", JSON.stringify({ ...profile, imageUrl })); // Update sessionStorage
+        sessionStorage.setItem(
+          "userProfile",
+          JSON.stringify({ ...profile, imageUrl })
+        ); // Update sessionStorage
         setImage(null); // Clear image file after upload
       } catch (error) {
         console.error("Error uploading image", error);
         return; // Stop execution if image upload fails
       }
     }
-  
+
     // Send the profile details (including firstName, lastName, email, phone)
     try {
       const response = await axios.put(
@@ -231,10 +235,10 @@ const Settings = () => {
           phone: profile.phone,
         }
       );
-  
+
       console.log(response.data);
       setEditing(false); // Exit editing mode after saving
-  
+
       // After saving, update session and localStorage with new profile info
       sessionStorage.setItem(
         "userProfile",
@@ -250,8 +254,7 @@ const Settings = () => {
       console.error("Error updating profile:", error);
     }
   };
-  
-  
+
   return (
     <div className="p-6">
       <h2 className="text-3xl font-semibold text-gray-500 mb-6">Settings</h2>
@@ -261,7 +264,7 @@ const Settings = () => {
           <div className="h-20 w-20 bg-gray-300 rounded-full">
             {profile.imageUrl ? (
               <img
-                src={profile.imageUrl}
+                src={profile.imageUrl} 
                 alt="Profile"
                 className="h-full w-full object-cover rounded-full"
               />

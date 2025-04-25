@@ -6,6 +6,7 @@ const LogoutModal = ({ open, handleClose }) => {
 
   const handleLogout = () => {
     localStorage.clear();
+    sessionStorage.clear();
     handleClose();
     navigate("/");
   };

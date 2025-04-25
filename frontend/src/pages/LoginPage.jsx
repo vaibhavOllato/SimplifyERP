@@ -40,7 +40,9 @@ const LoginPage = () => {
       // Store user data in sessionStorage
       sessionStorage.setItem("userId", userId);
       sessionStorage.setItem("userProfile", JSON.stringify({ firstName, lastName, email, phone }));
-  
+      sessionStorage.setItem("userProfile", JSON.stringify(res.data.user));
+      localStorage.setItem("profileImageUrl", res.data.user.imageUrl);
+      
       // Store the token and user data in localStorage
       localStorage.setItem("token", res.data.token); // Store the token separately
   
