@@ -80,7 +80,7 @@ export const createShop = async (req, res) => {
 export const getMyShops = async (req, res) => {
   try {
     const userId = req.session.user?.userId;
-    console.log("User ID from Session:", userId); // Check if userId is correctly fetched from the session
+    console.log("User ID from Session:", userId); 
 
     if (!userId) {
       return res.status(401).json({ message: "User is not authenticated." });

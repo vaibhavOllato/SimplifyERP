@@ -9,7 +9,10 @@ import cloudinary from "cloudinary";
 import { uploadProfilePicture } from "./controllers/profileController.js";
 import userRoutes from "./routes/userRoutes.js";
 import shopRoutes from "./routes/shopRoutes.js";
-import profileRoutes from './routes/updateProfileRoute.js'; // Add the .js extension here
+import profileRoutes from './routes/updateProfileRoute.js'; 
+import productRoutes from './routes/product routes/productRoutes.js';
+
+
 dotenv.config();
 
 const app = express();
@@ -62,6 +65,10 @@ app.use("/api/shops", shopRoutes);
 
 // Use the profile routes
 app.use("/api/profile", profileRoutes);
+
+// Use the product routes
+app.use('/api/products', productRoutes);
+
 
 // MongoDB connection
 mongoose

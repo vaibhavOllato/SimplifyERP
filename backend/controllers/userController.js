@@ -1,7 +1,6 @@
 import crypto from "crypto"; // built-in module
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-// import User from "../models/User"; 
 import User from "../models/User.js";
 import sendWelcomeEmail from '../services/emailService.js';
 import sendResetPasswordEmail from '../services/sendResetPasswordEmail.js';

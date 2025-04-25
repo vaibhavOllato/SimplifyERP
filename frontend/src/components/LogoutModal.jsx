@@ -25,7 +25,7 @@ const LogoutModal = ({ open, handleClose }) => {
         </button>
 
         {/* Icon */}
-        <div className="flex justify-center items-center bg-red-100 text-textSecondary w-12 h-12 rounded-full mx-auto mb-4">
+        <div className="flex justify-center items-center bg-cyan-100 text-cyan-700 w-12 h-12 rounded-full mx-auto mb-4">
           <FaSignOutAlt size={24} />
         </div>
 
