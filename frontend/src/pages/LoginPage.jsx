@@ -30,32 +30,38 @@ const LoginPage = () => {
         withCredentials: true, // 🔥 THIS IS REQUIRED TO ENABLE SESSION COOKIES!
       });
       console.log("Login Success ✅", res.data);
-
+  
+      // Extract user data from the response
+      const { userId, firstName, lastName, email, phone } = res.data.user;
+  
       // Set user in context ✅
       login(res.data.user);
-
+  
+      // Store user data in sessionStorage
+      sessionStorage.setItem("userId", userId);
+      sessionStorage.setItem("userProfile", JSON.stringify({ firstName, lastName, email, phone }));
+  
       // Store the token and user data in localStorage
-      localStorage.setItem("user", JSON.stringify(res.data.user));
       localStorage.setItem("token", res.data.token); // Store the token separately
-
+  
       triggerNotification({
         type: "success",
         message: "Login successful!",
       });
-
+  
       // Redirect after successful login
       navigate("/dashboard"); // change to your desired page
     } catch (err) {
       console.error("Login Failed ❌", err);
       setError(err.response?.data?.message || "Login failed.");
-
+  
       triggerNotification({
         type: "error",
         message: errorMsg,
       });
     }
   };
-
+  
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />

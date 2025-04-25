@@ -1,28 +1,274 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Edit, Save, X } from "lucide-react";
+import axios from "axios";
 
 const Settings = () => {
   const [editing, setEditing] = useState(false);
   const [profile, setProfile] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    phone: "9876543210",
-    address: "123 Main Street, City",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    imageUrl: "",
   });
 
-  const handleSave = () => {
-    // Save the updated profile details
-    setEditing(false);
+  const [image, setImage] = useState(null);
+
+  // Fetch user data from session (or localStorage) on component mount
+  // useEffect(() => {
+  //   const userData = JSON.parse(sessionStorage.getItem("userProfile")); // Assuming you have a stored userProfile object
+  //   const userId = sessionStorage.getItem("userId"); // Assuming userId is stored in sessionStorage
+
+  //   if (userData) {
+  //     setProfile({
+  //       firstName: userData.firstName,
+  //       lastName: userData.lastName,
+  //       email: userData.email,
+  //       phone: userData.phone,
+  //       address: userData.address,
+  //       imageUrl: userData.imageUrl || "",
+  //     });
+  //   } else {
+  //     console.log("No user data found in session.");
+  //   }
+
+  //   // Check if there's an image URL saved in localStorage
+  //   const savedImageUrl = localStorage.getItem("profileImageUrl");
+  //   if (savedImageUrl) {
+  //     setProfile((prevProfile) => ({
+  //       ...prevProfile,
+  //       imageUrl: savedImageUrl,
+  //     }));
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    const userData = JSON.parse(sessionStorage.getItem("userProfile"));
+    const userId = sessionStorage.getItem("userId");
+  
+    if (userData) {
+      setProfile({
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        email: userData.email,
+        phone: userData.phone,
+        address: userData.address,
+        imageUrl: userData.imageUrl || "",
+      });
+    } else {
+      console.log("No user data found in session.");
+    }
+  
+    // Check if there's an image URL saved in localStorage
+    const savedImageUrl = localStorage.getItem("profileImageUrl");
+    if (savedImageUrl) {
+      setProfile((prevProfile) => ({
+        ...prevProfile,
+        imageUrl: savedImageUrl,
+      }));
+    }
+  }, []);
+  
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
   };
 
+  // const handleSave = async () => {
+  //   const userId = sessionStorage.getItem("userId"); // Fetch userId from sessionStorage
+
+  //   if (!userId) {
+  //     console.error("User ID is missing from session.");
+  //     return;
+  //   }
+
+  //   // If there's an image file, upload it first
+  //   if (image) {
+  //     const formData = new FormData();
+  //     formData.append("image", image);
+
+  //     try {
+  //       const response = await axios.post(
+  //         "http://localhost:5000/upload-profile",
+  //         formData,
+  //         {
+  //           headers: {
+  //             "Content-Type": "multipart/form-data",
+  //           },
+  //         }
+  //       );
+
+  //       const imageUrl = response.data.url;
+  //       setProfile((prevProfile) => ({ ...prevProfile, imageUrl }));
+  //       localStorage.setItem("profileImageUrl", imageUrl); // Store in localStorage
+  //       setImage(null); // Clear image file after upload
+  //     } catch (error) {
+  //       console.error("Error uploading image", error);
+  //     }
+  //   }
+
+  //   // Send the profile details (including firstName, lastName, email, phone)
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:5000/api/profile/update-profile-details",
+  //       {
+  //         userId, // Pass the userId from session
+  //         firstName: profile.firstName,
+  //         lastName: profile.lastName,
+  //         email: profile.email,
+  //         phone: profile.phone,
+  //       }
+  //     );
+
+  //     console.log(response.data);
+  //     setEditing(false); // Exit editing mode after saving
+  //   } catch (error) {
+  //     console.error("Error updating profile:", error);
+  //   }
+  // };
+
+  // const handleSave = async () => {
+  //   const userId = sessionStorage.getItem("userId"); // Fetch userId from sessionStorage
+  
+  //   if (!userId) {
+  //     console.error("User ID is missing from session.");
+  //     return;
+  //   }
+  
+  //   // If there's an image file, upload it first
+  //   if (image) {
+  //     const formData = new FormData();
+  //     formData.append("image", image);
+  
+  //     try {
+  //       const response = await axios.post(
+  //         "http://localhost:5000/upload-profile",
+  //         formData,
+  //         {
+  //           headers: {
+  //             "Content-Type": "multipart/form-data",
+  //           },
+  //         }
+  //       );
+  
+  //       const imageUrl = response.data.url;
+  //       setProfile((prevProfile) => ({ ...prevProfile, imageUrl })); // Update the profile with the new image URL
+  //       localStorage.setItem("profileImageUrl", imageUrl); // Store in localStorage
+  //       setImage(null); // Clear image file after upload
+  //     } catch (error) {
+  //       console.error("Error uploading image", error);
+  //       return; // Stop execution if image upload fails
+  //     }
+  //   }
+  
+  //   // Send the profile details (including firstName, lastName, email, phone)
+  //   try {
+  //     const response = await axios.put(
+  //       "http://localhost:5000/api/profile/update-profile-details",
+  //       {
+  //         userId, // Pass the userId from session
+  //         firstName: profile.firstName,
+  //         lastName: profile.lastName,
+  //         email: profile.email,
+  //         phone: profile.phone,
+  //       }
+  //     );
+  
+  //     console.log(response.data);
+  //     setEditing(false); // Exit editing mode after saving
+  //   } catch (error) {
+  //     console.error("Error updating profile:", error);
+  //   }
+  // };
+
+
+  const handleSave = async () => {
+    const userId = sessionStorage.getItem("userId"); // Fetch userId from sessionStorage
+  
+    if (!userId) {
+      console.error("User ID is missing from session.");
+      return;
+    }
+  
+    // If there's an image file, upload it first
+    if (image) {
+      const formData = new FormData();
+      formData.append("image", image);
+  
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/upload-profile",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+  
+        const imageUrl = response.data.url;
+        setProfile((prevProfile) => ({ ...prevProfile, imageUrl })); // Update the profile with the new image URL
+        localStorage.setItem("profileImageUrl", imageUrl); // Store in localStorage
+        sessionStorage.setItem("userProfile", JSON.stringify({ ...profile, imageUrl })); // Update sessionStorage
+        setImage(null); // Clear image file after upload
+      } catch (error) {
+        console.error("Error uploading image", error);
+        return; // Stop execution if image upload fails
+      }
+    }
+  
+    // Send the profile details (including firstName, lastName, email, phone)
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/api/profile/update-profile-details",
+        {
+          userId, // Pass the userId from session
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          email: profile.email,
+          phone: profile.phone,
+        }
+      );
+  
+      console.log(response.data);
+      setEditing(false); // Exit editing mode after saving
+  
+      // After saving, update session and localStorage with new profile info
+      sessionStorage.setItem(
+        "userProfile",
+        JSON.stringify({
+          ...profile,
+          firstName: response.data.user.firstName,
+          lastName: response.data.user.lastName,
+          email: response.data.user.email,
+          phone: response.data.user.phone,
+        })
+      );
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+  
+  
   return (
     <div className="p-6">
       <h2 className="text-3xl font-semibold text-gray-500 mb-6">Settings</h2>
 
-      {/* Profile Section */}
       <div className="bg-white shadow-lg p-6 rounded-lg mb-6">
         <div className="flex items-center gap-4 mb-4">
-          <div className="h-20 w-20 bg-gray-300 rounded-full"></div> {/* Profile Picture */}
+          <div className="h-20 w-20 bg-gray-300 rounded-full">
+            {profile.imageUrl ? (
+              <img
+                src={profile.imageUrl}
+                alt="Profile"
+                className="h-full w-full object-cover rounded-full"
+              />
+            ) : (
+              <span>No Image</span>
+            )}
+          </div>
           <div>
             <h3 className="text-xl font-semibold">Profile</h3>
             <button
@@ -36,19 +282,41 @@ const Settings = () => {
         </div>
 
         <div className="space-y-4">
+          {/* First Name */}
           <div className="flex justify-between">
-            <p className="text-gray-600">Name:</p>
+            <p className="text-gray-600">First Name:</p>
             {editing ? (
               <input
                 type="text"
                 className="border border-gray-300 p-2 rounded-md w-1/2"
-                value={profile.name}
-                onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                value={profile.firstName}
+                onChange={(e) =>
+                  setProfile({ ...profile, firstName: e.target.value })
+                }
               />
             ) : (
-              <p className="font-semibold">{profile.name}</p>
+              <p className="font-semibold">{profile.firstName}</p>
             )}
           </div>
+
+          {/* Last Name */}
+          <div className="flex justify-between">
+            <p className="text-gray-600">Last Name:</p>
+            {editing ? (
+              <input
+                type="text"
+                className="border border-gray-300 p-2 rounded-md w-1/2"
+                value={profile.lastName}
+                onChange={(e) =>
+                  setProfile({ ...profile, lastName: e.target.value })
+                }
+              />
+            ) : (
+              <p className="font-semibold">{profile.lastName}</p>
+            )}
+          </div>
+
+          {/* Email */}
           <div className="flex justify-between">
             <p className="text-gray-600">Email:</p>
             {editing ? (
@@ -56,12 +324,16 @@ const Settings = () => {
                 type="email"
                 className="border border-gray-300 p-2 rounded-md w-1/2"
                 value={profile.email}
-                onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                onChange={(e) =>
+                  setProfile({ ...profile, email: e.target.value })
+                }
               />
             ) : (
               <p className="font-semibold">{profile.email}</p>
             )}
           </div>
+
+          {/* Phone Number */}
           <div className="flex justify-between">
             <p className="text-gray-600">Phone:</p>
             {editing ? (
@@ -69,26 +341,28 @@ const Settings = () => {
                 type="text"
                 className="border border-gray-300 p-2 rounded-md w-1/2"
                 value={profile.phone}
-                onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+                onChange={(e) =>
+                  setProfile({ ...profile, phone: e.target.value })
+                }
               />
             ) : (
               <p className="font-semibold">{profile.phone}</p>
             )}
           </div>
-          <div className="flex justify-between">
-            <p className="text-gray-600">Address:</p>
-            {editing ? (
-              <input
-                type="text"
-                className="border border-gray-300 p-2 rounded-md w-1/2"
-                value={profile.address}
-                onChange={(e) => setProfile({ ...profile, address: e.target.value })}
-              />
-            ) : (
-              <p className="font-semibold">{profile.address}</p>
-            )}
-          </div>
 
+          {/* Profile Picture */}
+          {editing && (
+            <div className="flex justify-between">
+              <p className="text-gray-600">Profile Picture:</p>
+              <input
+                type="file"
+                onChange={handleImageChange}
+                className="border border-gray-300 p-2 rounded-md w-1/2"
+              />
+            </div>
+          )}
+
+          {/* Save or Cancel buttons */}
           {editing && (
             <div className="flex justify-end mt-4 gap-4">
               <button
@@ -105,64 +379,6 @@ const Settings = () => {
               </button>
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Account Settings Section */}
-      <div className="bg-white shadow-lg p-6 rounded-lg mb-6">
-        <h3 className="text-xl font-semibold mb-4">Account Settings</h3>
-
-        {/* Two-Factor Authentication */}
-        <div className="flex justify-between items-center border-b border-gray-200 py-4">
-          <p className="text-gray-600">Enable Two-Factor Authentication</p>
-          <button className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700">
-            Enable
-          </button>
-        </div>
-
-        {/* Email Preferences */}
-        <div className="flex justify-between items-center border-b border-gray-200 py-4">
-          <p className="text-gray-600">Email Notifications</p>
-          <button className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700">
-            Manage Preferences
-          </button>
-        </div>
-
-        {/* Change Password */}
-        <div className="flex justify-between items-center py-4">
-          <p className="text-gray-600">Change Password</p>
-          <button className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700">
-            Change Password
-          </button>
-        </div>
-      </div>
-
-      {/* System Configuration Section */}
-      <div className="bg-white shadow-lg p-6 rounded-lg">
-        <h3 className="text-xl font-semibold mb-4">System Configuration</h3>
-
-        {/* Company Information */}
-        <div className="flex justify-between items-center py-4 border-b border-gray-200">
-          <p className="text-gray-600">Company Information</p>
-          <button className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700">
-            Edit
-          </button>
-        </div>
-
-        {/* Currency Settings */}
-        <div className="flex justify-between items-center py-4 border-b border-gray-200">
-          <p className="text-gray-600">Currency</p>
-          <button className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700">
-            Set Currency
-          </button>
-        </div>
-
-        {/* Tax Settings */}
-        <div className="flex justify-between items-center py-4 border-b border-gray-200">
-          <p className="text-gray-600">Tax Settings</p>
-          <button className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700">
-            Edit Taxes
-          </button>
         </div>
       </div>
     </div>
