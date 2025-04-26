@@ -1,16 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import { FaSignOutAlt, FaTimes } from "react-icons/fa";
+import axios from "axios";
 
 const LogoutModal = ({ open, handleClose }) => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.clear();
-    sessionStorage.clear();
-    handleClose();
-    navigate("/");
-  };
+  // const handleLogout = () => {
+  //   localStorage.clear();
+  //   sessionStorage.clear();
+  //   handleClose();
+  //   navigate("/");
+  // };
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5000/api/logout",
+        {},
+        { withCredentials: true }
+      );
+      localStorage.clear();
+      sessionStorage.clear();  // This will remove all data from sessionStorage
 
+      // After logout, reload or redirect
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
   if (!open) return null;
 
   return (

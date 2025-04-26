@@ -9,9 +9,8 @@ import cloudinary from "cloudinary";
 import { uploadProfilePicture } from "./controllers/profileController.js";
 import userRoutes from "./routes/userRoutes.js";
 import shopRoutes from "./routes/shopRoutes.js";
-import profileRoutes from './routes/updateProfileRoute.js'; 
-import productRoutes from './routes/product routes/productRoutes.js';
-
+import profileRoutes from "./routes/updateProfileRoute.js";
+import productRoutes from "./routes/product routes/productRoutes.js";
 
 dotenv.config();
 
@@ -19,14 +18,6 @@ const app = express();
 
 // CORS config to allow frontend communication
 const allowedOrigins = ["http://localhost:5173"];
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true, // Allow cookies from frontend
-  })
-);
-// Middleware
-app.use(express.json()); // Parses incoming JSON
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -38,7 +29,6 @@ cloudinary.config({
 const upload = multer({ dest: "uploads/" });
 
 // POST endpoint to upload profile picture
-app.post("/api/upload-profile", upload.single("image"), uploadProfilePicture);
 
 // Session setup
 app.use(
@@ -59,16 +49,38 @@ app.use(
   })
 );
 
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true, // Allow cookies from frontend
+  })
+);
+
+// ✅ Add logout route here
+app.post("/api/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send("Failed to clear session.");
+      console.error("❌ Error destroying session:", err);
+      // return res.status(500).send("Could not log out.");
+    }
+    res.clearCookie("connect.sid", { path: '/' }); // make sure you clear the right cookie
+    console.log("✅ Logged out successfully and cookie cleared");
+    res.status(200).send("Logged out");
+  });
+});
+
+
+
+// Middleware
+app.use(express.json()); // Parses incoming JSON
+
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/shops", shopRoutes);
-
-// Use the profile routes
+app.post("/api/upload-profile", upload.single("image"), uploadProfilePicture);
 app.use("/api/profile", profileRoutes);
-
-// Use the product routes
-app.use('/api/products', productRoutes);
-
+app.use("/api/products", productRoutes);
 
 // MongoDB connection
 mongoose

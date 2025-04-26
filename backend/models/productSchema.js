@@ -1,6 +1,5 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-// Define the product schema
 const productSchema = new mongoose.Schema({
   productName: {
     type: String,
@@ -12,7 +11,7 @@ const productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    required: true,  
+    required: true,
   },
   size: [String],  // Sizes will be an array of strings, e.g., ['S', 'M', 'L']
   color: [String],  // Array of colors, e.g., ['Red', 'Blue', 'Black']
@@ -32,9 +31,13 @@ const productSchema = new mongoose.Schema({
   shopId: {  // Custom shopId field
     type: String,
     required: true,
-    unique: true,
   },
 });
+
+// Create a compound index on shopId and productCode to ensure uniqueness per shop
+// productSchema.index({ shopId: 1, productCode: 1 }, { unique: true });
+productSchema.index({ shopId: 1, productCode: 1 }, { unique: true });
+
 
 // Create the product model
 const Product = mongoose.model('Product', productSchema);

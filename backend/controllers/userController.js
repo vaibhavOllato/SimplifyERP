@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import sendWelcomeEmail from '../services/emailService.js';
 import sendResetPasswordEmail from '../services/sendResetPasswordEmail.js';
-
+import Shop from '../models/Shop.js'; 
 
 const generateUserId = () => {
   return "SimplifyERP" + Math.floor(100000 + Math.random() * 900000); // e.g., USR456783
@@ -70,6 +70,48 @@ export const registerUser = async (req, res) => {
 };
 
 
+// export const loginUser = async (req, res) => {
+//   const { email, password } = req.body;
+
+//   if (!email || !password) {
+//     return res.status(400).json({ message: "Email and password are required." });
+//   }
+
+//   try {
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(401).json({ message: "Invalid credentials." });
+//     }
+
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) {
+//       return res.status(401).json({ message: "Invalid credentials." });
+//     }
+
+//     // ✅ Set session data safely
+//     req.session.user = {
+//       userId: user.userId,
+//       email: user.email,
+//       firstName: user.firstName,
+//       lastName: user.lastName,
+//       phone: user.phone,
+//       imageUrl: user.imageUrl || null, 
+//     };
+
+//     console.log("Session after setting user:", req.session);
+
+//     return res.status(200).json({
+//       message: "Login successful.",
+//       user: req.session.user, // returning from session
+//     });
+//   } catch (error) {
+//     console.error("Login error:", error);
+//     return res.status(500).json({ message: "Server error. Please try again later." });
+//   }
+// };
+
+// import Shop from '../models/Shop.js'; 
+
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -88,7 +130,7 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials." });
     }
 
-    // ✅ Set session data safely
+    // ✅ Set session user data
     req.session.user = {
       userId: user.userId,
       email: user.email,
@@ -98,17 +140,33 @@ export const loginUser = async (req, res) => {
       imageUrl: user.imageUrl || null, 
     };
 
-    console.log("Session after setting user:", req.session);
+    // 🛠️ NOW: Also find shop and set shopId into session
+    
+    const shops = await Shop.find({ userId: user._id });
+console.log("Shops found for user:", shops);
+
+    if (shops.length > 0) {
+      req.session.shopId = shops[0].shopId; // taking first shop
+      console.log("✅ Shop ID set after login:", req.session.shopId);
+    } else {
+      console.log("⚠️ No shops found for user");
+    }
+
+    await req.session.save(); // 🧠 Always save after setting
+
+    console.log("Session after setting user + shopId:", req.session);
 
     return res.status(200).json({
       message: "Login successful.",
-      user: req.session.user, // returning from session
+      user: req.session.user,
+      shopId: req.session.shopId || null, // send shopId too if needed
     });
   } catch (error) {
     console.error("Login error:", error);
     return res.status(500).json({ message: "Server error. Please try again later." });
   }
 };
+
 
 
 // In controllers/userController.js
