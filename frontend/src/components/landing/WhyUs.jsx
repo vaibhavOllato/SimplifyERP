@@ -90,7 +90,7 @@ const WhyUs = () => {
   return (
     <section id="features" className="bg-gradient-to-b from-white via-gray-50 to-white py-20 px-6">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4">
+        <h2 className="text-4xl md:text-4xl font-extrabold text-gray-500 mb-4">
           Why Choose <span className="text-cyan-600">SimplifyERP</span>?
         </h2>
         <p className="text-gray-500 max-w-xl mx-auto mb-14 text-lg">

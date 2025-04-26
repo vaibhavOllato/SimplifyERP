@@ -4,25 +4,15 @@ import axios from "axios";
 
 const LogoutModal = ({ open, handleClose }) => {
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-  // const handleLogout = () => {
-  //   localStorage.clear();
-  //   sessionStorage.clear();
-  //   handleClose();
-  //   navigate("/");
-  // };
   const handleLogout = async () => {
     try {
-      await axios.post(
-        "http://localhost:5000/api/logout",
-        {},
-        { withCredentials: true }
-      );
+      await axios.post(`${apiUrl}/logout`, {}, { withCredentials: true });
       localStorage.clear();
-      sessionStorage.clear();  // This will remove all data from sessionStorage
+      sessionStorage.clear();
 
-      // After logout, reload or redirect
-      window.location.href = "/login";
+      navigate("/login");
     } catch (error) {
       console.error("Logout failed", error);
     }

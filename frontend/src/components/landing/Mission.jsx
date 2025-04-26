@@ -22,7 +22,7 @@ const Mission = () => {
   return (
     <section className="bg-white py-20 px-6">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-5xl font-extrabold text-gray-800 mb-6">
+        <h2 className="text-4xl font-extrabold text-gray-500 mb-6">
           Our <span className="text-cyan-600">Mission</span>
         </h2>
         <p className="text-gray-500 max-w-2xl mx-auto text-lg mb-14">

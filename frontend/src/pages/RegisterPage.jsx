@@ -8,6 +8,8 @@ import { useNotification } from "../context/NotificationProvider";
 const RegisterPage = () => {
   const { triggerNotification } = useNotification(); // Use the notification hook
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -144,7 +146,7 @@ const RegisterPage = () => {
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700 mb-1"
@@ -152,7 +154,7 @@ const RegisterPage = () => {
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 value={formData.password}
                 onChange={handleChange}
@@ -160,9 +162,16 @@ const RegisterPage = () => {
                 placeholder="••••••••"
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-[67%] transform -translate-y-1/2  text-gray-500"
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="confirmPassword"
                 className="block text-sm font-medium text-gray-700 mb-1"
@@ -170,7 +179,8 @@ const RegisterPage = () => {
                 Confirm Password
               </label>
               <input
-                type="password"
+                // type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 id="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
@@ -178,6 +188,13 @@ const RegisterPage = () => {
                 placeholder="••••••••"
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-4 top-[67%] transform -translate-y-1/2 text-gray-500"
+              >
+                {showConfirmPassword ? "🙈" : "👁️"}
+              </button>
             </div>
 
             <div className="md:col-span-2">

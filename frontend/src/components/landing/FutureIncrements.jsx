@@ -80,7 +80,7 @@ const FutureIncrements = () => {
   return (
     <section className="relative bg-gradient-to-b from-gray-50 to-white py-20 px-6">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6">
+        <h2 className="text-4xl md:text-4xl font-extrabold text-gray-500 mb-6">
           🚀 Future Increments
         </h2>
         <p className="text-gray-500 max-w-2xl mx-auto mb-12 text-lg">

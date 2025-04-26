@@ -13,13 +13,29 @@ const LandingPage = () => {
     <>
       <Navbar />
       <div className="pt-20">
-        {/* All Sections */}
-        <Hero />
-        <FutureIncrements />
-        <WhyUs />
-        <GettingStarted />
-        <Mission />
-        <TryItNow />
+        <div id="hero">
+          <Hero />
+        </div>
+
+        <div id="future-increments">
+          <FutureIncrements />
+        </div>
+
+        <div id="why-us">
+          <WhyUs />
+        </div>
+
+        <div id="getting-started">
+          <GettingStarted />
+        </div>
+
+        <div id="mission">
+          <Mission />
+        </div>
+
+        <div id="try-it-now">
+          <TryItNow />
+        </div>
         <Footer />
       </div>
     </>

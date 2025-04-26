@@ -76,9 +76,9 @@ const steps = [
 
 const GettingStarted = () => {
   return (
-    <section className="bg-cyan-600 py-20 px-6">
+    <section className="bg-cyan-600 py-20  px-6">
       <div className="max-w-6xl mx-auto text-center text-white">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+        <h2 className="text-4xl md:text-4xl font-bold mb-4">
           Get Started in <span className="underline decoration-white/50">3 Easy Steps</span>
         </h2>
         <p className="text-white/90 max-w-2xl mx-auto text-lg mb-14">
