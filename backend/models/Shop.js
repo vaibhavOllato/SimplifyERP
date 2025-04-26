@@ -7,22 +7,22 @@ const taxRateSchema = new mongoose.Schema({
   rate: { type: Number, required: true },
 });
 
-const socialLinksSchema = new mongoose.Schema({
-  instagram: { type: String },
-  facebook: { type: String },
-  twitter: { type: String },
-});
+// const socialLinksSchema = new mongoose.Schema({
+//   instagram: { type: String },
+//   facebook: { type: String },
+//   twitter: { type: String },
+// });
 
-const locationSchema = new mongoose.Schema({
-  lat: { type: Number },
-  lng: { type: Number },
-});
+// const locationSchema = new mongoose.Schema({
+//   lat: { type: Number },
+//   lng: { type: Number },
+// });
 
-const managerSchema = new mongoose.Schema({
-  name: { type: String },
-  phone: { type: String },
-  email: { type: String },
-});
+// const managerSchema = new mongoose.Schema({
+//   name: { type: String },
+//   phone: { type: String },
+//   email: { type: String },
+// });
 
 const shopSchema = new mongoose.Schema({
   shopId: { type: String, unique: true },
@@ -35,21 +35,21 @@ const shopSchema = new mongoose.Schema({
   shopName: { type: String, required: true },
   shopType: { type: String, required: true },
   secondaryCategories: [{ type: String }],
-  logo: { type: String }, // image URL or filename
+  // logo: { type: String }, 
   address: { type: String, required: true },
   phone: { type: String },
   email: { type: String },
   website: { type: String },
-  socialLinks: socialLinksSchema,
-  location: locationSchema,
+  // socialLinks: socialLinksSchema,
+  // location: locationSchema,
   openingTime: { type: String },
   closingTime: { type: String },
-  paymentMethods: [{ type: String }], // ['Cash', 'Card', 'UPI']
+  // paymentMethods: [{ type: String }], 
   gstNumber: { type: String },
   taxRates: [taxRateSchema],
-  status: { type: String, enum: ["Active", "Inactive"], default: "Active" },
+  // status: { type: String, enum: ["Active", "Inactive"], default: "Active" },
   verified: { type: Boolean, default: false },
-  manager: managerSchema,
+  // manager: managerSchema,
   createdAt: { type: Date, default: Date.now },
 });
 

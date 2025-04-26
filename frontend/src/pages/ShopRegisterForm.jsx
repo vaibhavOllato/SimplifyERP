@@ -83,11 +83,11 @@ const ShopRegisterForm = () => {
             placeholder="Shop Type"
             className="input"
           />
-          <input
+          {/* <input
             {...register("logo")}
             placeholder="Logo URL"
             className="input"
-          />
+          /> */}
           <input
             {...register("address")}
             placeholder="Address"
@@ -102,7 +102,7 @@ const ShopRegisterForm = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <input
             {...register("socialLinks.instagram")}
             placeholder="Instagram URL"
@@ -118,9 +118,9 @@ const ShopRegisterForm = () => {
             placeholder="Twitter URL"
             className="input"
           />
-        </div>
+        </div> */}
 
-        <div className="grid grid-cols-2 gap-4">
+        {/* <div className="grid grid-cols-2 gap-4">
           <input
             {...register("location.lat", { valueAsNumber: true })}
             placeholder="Latitude"
@@ -131,14 +131,14 @@ const ShopRegisterForm = () => {
             placeholder="Longitude"
             className="input"
           />
-        </div>
+        </div> */}
 
         <div className="grid grid-cols-2 gap-4">
           <input {...register("openingTime")} type="time" className="input" />
           <input {...register("closingTime")} type="time" className="input" />
         </div>
 
-        <div>
+        {/* <div>
           <label className="block font-semibold mb-1">Payment Methods</label>
           <div className="flex gap-4 flex-wrap">
             {["Cash", "Card", "UPI"].map((method) => (
@@ -152,7 +152,7 @@ const ShopRegisterForm = () => {
               </label>
             ))}
           </div>
-        </div>
+        </div> */}
 
         <div>
           <label className="block font-semibold mb-1">
@@ -207,7 +207,7 @@ const ShopRegisterForm = () => {
           </button>
         </div>
 
-        <div>
+        {/* <div>
           <label className="block font-semibold mb-2">Manager Details</label>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <input
@@ -226,9 +226,9 @@ const ShopRegisterForm = () => {
               className="input"
             />
           </div>
-        </div>
+        </div> */}
 
-        <div className="flex items-center gap-4 mt-4">
+        {/* <div className="flex items-center gap-4 mt-4">
           <label className="flex items-center gap-2">
             <input type="checkbox" {...register("verified")} />
             Verified
@@ -237,7 +237,7 @@ const ShopRegisterForm = () => {
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
-        </div>
+        </div> */}
 
         <button
           type="submit"

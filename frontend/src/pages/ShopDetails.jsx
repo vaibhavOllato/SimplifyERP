@@ -112,11 +112,11 @@ const ShopDetails = ({ shop }) => {
           <div className="flex items-center justify-between space-x-6">
             {/* Shop Logo */}
             <div className="flex items-center space-x-6">
-              <img
+              {/* <img
                 src={shop.logo}
                 alt={`${shop.shopName} Logo`}
                 className="w-28 h-28 rounded-full shadow-2xl border-4 border-cyan-500"
-              />
+              /> */}
               <div>
                 <h1 className="text-4xl font-semibold text-gray-800">
                   {shop.shopName}
@@ -212,7 +212,7 @@ const ShopDetails = ({ shop }) => {
             </div>
 
             {/* Payment Methods */}
-            <div className="bg-gray-50 p-4 rounded-xl shadow">
+            {/* <div className="bg-gray-50 p-4 rounded-xl shadow">
               <h3 className="text-lg font-semibold text-gray-800 flex items-center mb-3">
                 <CreditCard className="w-5 h-5 mr-2 text-cyan-600" />
                 Payment Methods
@@ -230,14 +230,14 @@ const ShopDetails = ({ shop }) => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
 
          
         </div>
 
         {/* Manager Information */}
-        <div className="bg-white rounded-lg shadow-xl p-8 ">
+        {/* <div className="bg-white rounded-lg shadow-xl p-8 ">
           <h3 className="text-2xl font-semibold text-gray-800 mb-4">
             Manager Details
           </h3>
@@ -265,10 +265,10 @@ const ShopDetails = ({ shop }) => {
               </a>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Social Media Links */}
-        <div className="flex justify-center space-x-8 mt-6">
+        {/* <div className="flex justify-center space-x-8 mt-6">
           <a
             href={shop.socialLinks.instagram}
             target="_blank"
@@ -293,7 +293,7 @@ const ShopDetails = ({ shop }) => {
           >
             <FaTwitter />
           </a>
-        </div>
+        </div> */}
       </div>
     </div>
   );
