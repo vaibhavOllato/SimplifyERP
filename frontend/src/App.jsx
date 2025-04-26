@@ -43,9 +43,10 @@ const App = () => {
             <Route path="orders" element={<OrderPage />} />
             <Route path="customers" element={<CustomerListPage />} />
             <Route path="my-shop" element={<ShopPage />} />
-            <Route path="shop-register-form" element={<ShopRegisterForm />} />
+           
             {/* <Route path="orders" element={<Orders />} /> */}
           </Route>
+          <Route path="shop-register-form" element={<ShopRegisterForm />} />
 
           {/* Forgot and Reset Password pages */}
         

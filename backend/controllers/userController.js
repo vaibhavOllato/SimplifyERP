@@ -2,9 +2,9 @@ import crypto from "crypto"; // built-in module
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import sendWelcomeEmail from '../services/emailService.js';
-import sendResetPasswordEmail from '../services/sendResetPasswordEmail.js';
-import Shop from '../models/Shop.js'; 
+import sendWelcomeEmail from "../services/emailService.js";
+import sendResetPasswordEmail from "../services/sendResetPasswordEmail.js";
+import Shop from "../models/Shop.js";
 
 const generateUserId = () => {
   return "SimplifyERP" + Math.floor(100000 + Math.random() * 900000); // e.g., USR456783
@@ -59,8 +59,8 @@ export const registerUser = async (req, res) => {
 
     await newUser.save();
 
-     // Send the welcome email
-     await sendWelcomeEmail(email, firstName);
+    // Send the welcome email
+    await sendWelcomeEmail(email, firstName);
 
     res.status(201).json({ message: "User registered successfully.", userId });
   } catch (error) {
@@ -68,7 +68,6 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: "Server error. Please try again later." });
   }
 };
-
 
 // export const loginUser = async (req, res) => {
 //   const { email, password } = req.body;
@@ -95,7 +94,7 @@ export const registerUser = async (req, res) => {
 //       firstName: user.firstName,
 //       lastName: user.lastName,
 //       phone: user.phone,
-//       imageUrl: user.imageUrl || null, 
+//       imageUrl: user.imageUrl || null,
 //     };
 
 //     console.log("Session after setting user:", req.session);
@@ -110,13 +109,15 @@ export const registerUser = async (req, res) => {
 //   }
 // };
 
-// import Shop from '../models/Shop.js'; 
+// import Shop from '../models/Shop.js';
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ message: "Email and password are required." });
+    return res
+      .status(400)
+      .json({ message: "Email and password are required." });
   }
 
   try {
@@ -137,13 +138,13 @@ export const loginUser = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       phone: user.phone,
-      imageUrl: user.imageUrl || null, 
+      imageUrl: user.imageUrl || null,
     };
 
     // 🛠️ NOW: Also find shop and set shopId into session
-    
-    const shops = await Shop.find({ userId: user._id });
-console.log("Shops found for user:", shops);
+
+    const shops = await Shop.find({ userId: user.userId });
+    console.log("Shops found for user:", shops);
 
     if (shops.length > 0) {
       req.session.shopId = shops[0].shopId; // taking first shop
@@ -163,11 +164,11 @@ console.log("Shops found for user:", shops);
     });
   } catch (error) {
     console.error("Login error:", error);
-    return res.status(500).json({ message: "Server error. Please try again later." });
+    return res
+      .status(500)
+      .json({ message: "Server error. Please try again later." });
   }
 };
-
-
 
 // In controllers/userController.js
 export const checkLoginStatus = (req, res) => {
@@ -177,8 +178,6 @@ export const checkLoginStatus = (req, res) => {
     res.status(200).json({ loggedIn: false });
   }
 };
-
-
 
 export const logoutUser = (req, res) => {
   req.session.destroy((err) => {
@@ -190,7 +189,6 @@ export const logoutUser = (req, res) => {
   });
 };
 
-
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -198,11 +196,13 @@ export const forgotPassword = async (req, res) => {
     // Check if the user exists
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: 'User with this email does not exist.' });
+      return res
+        .status(404)
+        .json({ message: "User with this email does not exist." });
     }
 
     // Generate a reset token
-    const resetToken = crypto.randomBytes(20).toString('hex');
+    const resetToken = crypto.randomBytes(20).toString("hex");
     const resetPasswordExpire = Date.now() + 3600000; // 1 hour expiration
 
     // Save the token and expiration in the user document
@@ -215,24 +215,22 @@ export const forgotPassword = async (req, res) => {
     await sendResetPasswordEmail(user.email, resetPasswordLink);
 
     res.status(200).json({
-      message: 'Password reset email sent. Please check your inbox.',
+      message: "Password reset email sent. Please check your inbox.",
     });
   } catch (err) {
-    console.error('Forgot password error:', err);
-    res.status(500).json({ message: 'Server error. Please try again later.' });
+    console.error("Forgot password error:", err);
+    res.status(500).json({ message: "Server error. Please try again later." });
   }
 };
-
-
 
 export const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
-  console.log('Token from URL:', token);
+  console.log("Token from URL:", token);
 
-  console.log('🔐 Reset Password Endpoint Hit');
+  console.log("🔐 Reset Password Endpoint Hit");
   // console.log('Token:', token);
-  console.log('Password:', password);
+  console.log("Password:", password);
 
   try {
     // Find the user by reset password token and ensure it is not expired
@@ -241,10 +239,10 @@ export const resetPassword = async (req, res) => {
       resetPasswordExpire: { $gt: Date.now() }, // Token must not have expired
     });
 
-    console.log('User Found:', user);
+    console.log("User Found:", user);
 
     if (!user) {
-      return res.status(400).json({ message: 'Invalid or expired token.' });
+      return res.status(400).json({ message: "Invalid or expired token." });
     }
 
     // Hash the new password
@@ -258,10 +256,11 @@ export const resetPassword = async (req, res) => {
     await user.save();
 
     res.status(200).json({
-      message: 'Password reset successful! You can now log in with your new password.',
+      message:
+        "Password reset successful! You can now log in with your new password.",
     });
   } catch (err) {
-    console.error('Reset password error:', err);
-    res.status(500).json({ message: 'Server error. Please try again later.' });
+    console.error("Reset password error:", err);
+    res.status(500).json({ message: "Server error. Please try again later." });
   }
 };

@@ -24,11 +24,11 @@ const Sidebar = () => {
 
     { name: "Customer list", icon: <Users size={20} />, path: "/customers" },
     { name: "Shop details", icon: <Store size={20} />, path: "/my-shop" },
-    {
-      name: "Shop Register form",
-      icon: <Store size={20} />,
-      path: "/shop-register-form",
-    },
+    // {
+    //   name: "Shop Register form",
+    //   icon: <Store size={20} />,
+    //   path: "/shop-register-form",
+    // },
     { name: "Settings", icon: <Settings size={20} />, path: "/setting" },
   ];
 
