@@ -166,6 +166,8 @@
 
 // export default LoginPage;
 
+
+
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -191,53 +193,53 @@ const LoginPage = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setError("");
-  //   try {
-  //     const res = await axios.post(`${apiUrl}/users/login`, formData, {
-  //       withCredentials: true,
-  //     });
-  //     console.log("Login Success ✅", res.data);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const res = await axios.post(`${apiUrl}/users/login`, formData, {
+        withCredentials: true,
+      });
+      console.log("Login Success ✅", res.data);
 
-  //     // Extract user data from the response
-  //     const { userId, firstName, lastName, email, phone } = res.data.user;
+      // Extract user data from the response
+      const { userId, firstName, lastName, email, phone } = res.data.user;
 
-  //     // Set user in context ✅
-  //     login(res.data.user);
+      // Set user in context ✅
+      login(res.data.user);
 
-  //     // Store user data in sessionStorage
-  //     sessionStorage.setItem("userId", userId);
-  //     sessionStorage.setItem(
-  //       "userProfile",
-  //       JSON.stringify({ firstName, lastName, email, phone })
-  //     );
-  //     sessionStorage.setItem("userProfile", JSON.stringify(res.data.user));
-  //     localStorage.setItem("profileImageUrl", res.data.user.imageUrl);
+      // Store user data in sessionStorage
+      sessionStorage.setItem("userId", userId);
+      sessionStorage.setItem(
+        "userProfile",
+        JSON.stringify({ firstName, lastName, email, phone })
+      );
+      sessionStorage.setItem("userProfile", JSON.stringify(res.data.user));
+      localStorage.setItem("profileImageUrl", res.data.user.imageUrl);
 
-  //     // Store the token and user data in localStorage
-  //     localStorage.setItem("token", res.data.token);
-  //     // console.log("Saved token ✅", localStorage.getItem("token"));
+      // Store the token and user data in localStorage
+      localStorage.setItem("token", res.data.token);
+      // console.log("Saved token ✅", localStorage.getItem("token"));
 
-  //     console.log("Full login response:", res.data);
+      console.log("Full login response:", res.data);
 
-  //     triggerNotification({
-  //       type: "success",
-  //       message: "Login successful!",
-  //     });
+      triggerNotification({
+        type: "success",
+        message: "Login successful!",
+      });
 
-  //     // Redirect after successful login
-  //     navigate("/dashboard"); // change to your desired page
-  //   } catch (err) {
-  //     console.error("Login Failed ❌", err);
-  //     setError(err.response?.data?.message || "Login failed.");
+      // Redirect after successful login
+      navigate("/dashboard"); // change to your desired page
+    } catch (err) {
+      console.error("Login Failed ❌", err);
+      setError(err.response?.data?.message || "Login failed.");
 
-  //     triggerNotification({
-  //       type: "error",
-  //       message: errorMsg,
-  //     });
-  //   }
-  // };
+      triggerNotification({
+        type: "error",
+        message: errorMsg,
+      });
+    }
+  };
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -301,71 +303,7 @@ const LoginPage = () => {
   //   }
   // };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");  // Reset any previous error
   
-    try {
-      // Send login request
-      const res = await axios.post(`${apiUrl}/users/login`, formData, {
-        withCredentials: true,
-      });
-      console.log("Login Success ✅", res.data);
-  
-      // Extract user data from the response
-      const { userId, firstName, lastName, email, phone } = res.data.user;
-  
-      // Set user in context ✅
-      login(res.data.user);
-  
-      // Store user data in sessionStorage and localStorage
-      sessionStorage.setItem("userId", userId);
-      sessionStorage.setItem(
-        "userProfile",
-        JSON.stringify({ firstName, lastName, email, phone })
-      );
-      sessionStorage.setItem("userProfile", JSON.stringify(res.data.user));
-      localStorage.setItem("profileImageUrl", res.data.user.imageUrl);
-      localStorage.setItem("token", res.data.token);
-      
-      console.log("Full login response:", res.data);
-  
-      // Display login success notification
-      triggerNotification({
-        type: "success",
-        message: "Login successful!",
-      });
-  
-      // After successful login, check if the shop is registered
-      const shopResponse = await axios.get(`${apiUrl}/shops/user/${userId}`);
-      console.log("Shop Response:", shopResponse.data);
-  
-      // Check if shop exists
-      if (
-        shopResponse.data &&
-        shopResponse.data.shops &&
-        shopResponse.data.shops.length > 0 &&
-        shopResponse.data.shops[0].shopId // Assuming the first shop is the correct one
-      ) {
-        console.log("Shop found, navigating to dashboard");
-        // If shop exists, navigate to the dashboard
-        navigate("/dashboard");
-      } else {
-        // If no shop found, navigate to the shop registration page
-        console.log("No shop found, navigating to shop register form");
-        navigate("/shop-register-form");
-      }
-    } catch (err) {
-      console.error("Login Failed ❌", err);
-      setError(err.response?.data?.message || "Login failed.");
-  
-      // Show error notification
-      triggerNotification({
-        type: "error",
-        message: err.response?.data?.message || "Login failed.",
-      });
-    }
-  };
   
 
   return (

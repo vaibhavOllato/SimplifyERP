@@ -17,7 +17,7 @@ import ShopPage from "./pages/ShopPage";
 import ShopRegisterForm from "./pages/ShopRegisterForm";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import ResetPasswordPage from "./components/ResetPasswordPage";
-// import { ShopProvider } from './context/ShopContext'; 
+// import { ShopProvider } from './context/ShopContext';
 
 const App = () => {
   return (
@@ -32,24 +32,21 @@ const App = () => {
           <Route path="/register" element={<RegisterPage />} />
 
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+          <Route
+            path="/reset-password/:token"
+            element={<ResetPasswordPage />}
+          />
 
-          {/* Apply the layout to Dashboard and any other pages that require Sidebar and Header */}
+         
           <Route path="/" element={<Layout />}>
             <Route path="dashboard" element={<Dashboard />} />
-            {/* <Route path="inventory" element={<InventoryPage />} /> */}
             <Route path="inventory" element={<InventoryPage />} />
             <Route path="setting" element={<Settings />} />
             <Route path="orders" element={<OrderPage />} />
             <Route path="customers" element={<CustomerListPage />} />
             <Route path="my-shop" element={<ShopPage />} />
-           
-            {/* <Route path="orders" element={<Orders />} /> */}
+            <Route path="shop-register-form" element={<ShopRegisterForm />} />
           </Route>
-          <Route path="shop-register-form" element={<ShopRegisterForm />} />
-
-          {/* Forgot and Reset Password pages */}
-        
         </Routes>
       </NotificationProvider>
     </AuthProvider>

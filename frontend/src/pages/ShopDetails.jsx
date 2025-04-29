@@ -1,90 +1,239 @@
-// import React from 'react';
+// import React from "react";
+// import {
+//   FaPhoneAlt,
+//   FaEnvelope,
+//   FaInstagram,
+//   FaFacebook,
+//   FaTwitter,
+//   FaMapMarkerAlt,
+//   FaGlobe,
+//   FaRegClock,
+//   FaMoneyBillWave,
+//   FaBuilding,
+//   FaCheckCircle,
+//   FaTimesCircle,
+//   FaCalendarAlt,
+//   FaTags,
+//   FaUser,
+//   FaIdBadge,
+// } from "react-icons/fa";
+// import { Banknote, CreditCard, Wallet } from "lucide-react";
 
 // const ShopDetails = ({ shop }) => {
+//   const socialLinks = shop?.socialLinks || {};
+//   const paymentIcons = {
+//     Cash: <FaMoneyBillWave className="w-5 h-5 text-green-500" />,
+//     Card: <CreditCard className="w-5 h-5 text-indigo-500" />,
+//     UPI: <Wallet className="w-5 h-5 text-blue-500" />,
+//   };
+
 //   return (
-//     <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
-//       <div className="flex flex-col items-center bg-white shadow-xl p-8 rounded-lg max-w-4xl mx-auto">
-//         {/* Shop Logo */}
-//         <img
-//           src={shop.logo}
-//           alt={`${shop.shopName} Logo`}
-//           className="w-40 h-40 rounded-full object-cover mb-6 shadow-lg"
-//         />
-
-//         {/* Shop Name */}
-//         <h1 className="text-4xl font-extrabold text-gray-800 mb-2 text-center">{shop.shopName}</h1>
-
-//         {/* Shop Type */}
-//         <p className="text-xl text-gray-600 mb-4 text-center">{shop.shopType}</p>
-
-//         {/* Shop Details Section */}
-//         <div className="w-full space-y-4">
-//           <h2 className="text-2xl font-semibold text-gray-700">Shop Details</h2>
-
-//           <div className="space-y-2 text-gray-700">
-//             <p><strong>Address: </strong>{shop.address}</p>
-//             <p><strong>Phone: </strong>{shop.phone}</p>
-//             <p><strong>Email: </strong>{shop.email}</p>
-//             <p><strong>Website: </strong>
-//               <a href={shop.website} target="_blank" rel="noopener noreferrer" className="text-cyan-600 hover:underline">
-//                 {shop.website}
-//               </a>
-//             </p>
-//           </div>
-
-//           {/* Social Links */}
-//           <div className="mt-6">
-//             <h3 className="text-xl font-semibold text-gray-700">Follow Us</h3>
-//             <div className="flex space-x-6 justify-center mt-2">
-//               <a href={shop.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
-//                 <i className="fab fa-instagram text-3xl text-pink-600 hover:text-pink-800 transition-all"></i>
-//               </a>
-//               <a href={shop.socialLinks.facebook} target="_blank" rel="noopener noreferrer">
-//                 <i className="fab fa-facebook text-3xl text-blue-600 hover:text-blue-800 transition-all"></i>
-//               </a>
-//               <a href={shop.socialLinks.twitter} target="_blank" rel="noopener noreferrer">
-//                 <i className="fab fa-twitter text-3xl text-blue-400 hover:text-blue-600 transition-all"></i>
-//               </a>
+//     <div className="max-w-5xl mx-auto px-4 py-10">
+//       <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
+//         {/* Header */}
+//         <div className="flex justify-between items-center">
+//           <div className="flex items-center gap-3">
+//             <FaBuilding className="text-cyan-600 w-8 h-8" />
+//             <div>
+//               <h1 className="text-2xl font-bold text-cyan-800">
+//                 {shop.shopName}
+//               </h1>
+//               <p className="text-sm text-gray-500">{shop.shopType}</p>
 //             </div>
 //           </div>
+//           <span
+//             className={`text-xs font-semibold px-3 py-1 rounded-full ${
+//               shop.status === "Active"
+//                 ? "bg-green-100 text-green-700"
+//                 : "bg-red-100 text-red-600"
+//             }`}
+//           >
+//             {shop.status || "Inactive"}
+//           </span>
+//         </div>
 
-//           {/* Opening and Closing Time */}
-//           <div className="mt-6">
-//             <p className="text-gray-700"><strong>Opening Time: </strong>{shop.openingTime}</p>
-//             <p className="text-gray-700"><strong>Closing Time: </strong>{shop.closingTime}</p>
+//         {/* Basic Info */}
+//         <div className="grid sm:grid-cols-2 gap-4 text-sm text-gray-700">
+//           <div className="flex items-center gap-2">
+//             <FaUser className="text-orange-500" />
+//             <span>User ID: {shop.userId}</span>
 //           </div>
+//           <div className="flex items-center gap-2">
+//             <FaIdBadge className="text-indigo-500" />
+//             <span>Shop ID: {shop.shopId}</span>
+//           </div>
+//         </div>
 
-//           {/* Payment Methods */}
-//           <div className="mt-6">
-//             <h3 className="text-xl font-semibold text-gray-700">Accepted Payment Methods</h3>
-//             <ul className="list-disc list-inside space-y-2 mt-2 text-gray-700">
-//               {shop.paymentMethods.map((method, index) => (
-//                 <li key={index} className="text-lg">{method}</li>
+//         {/* Contact Info */}
+//         <div className="space-y-3 text-gray-700 text-sm">
+//           <div className="flex items-center gap-2">
+//             <FaMapMarkerAlt className="text-red-500" />
+//             <span>{shop.address}</span>
+//           </div>
+//           <div className="flex items-center gap-2">
+//             <FaPhoneAlt className="text-green-500" />
+//             <a href={`tel:${shop.phone}`} className="hover:underline">
+//               {shop.phone}
+//             </a>
+//           </div>
+//           <div className="flex items-center gap-2">
+//             <FaEnvelope className="text-blue-500" />
+//             <a href={`mailto:${shop.email}`} className="hover:underline">
+//               {shop.email}
+//             </a>
+//           </div>
+//           {shop.website && (
+//             <div className="flex items-center gap-2">
+//               <FaGlobe className="text-purple-500" />
+//               <a
+//                 href={shop.website}
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//                 className="hover:underline"
+//               >
+//                 {shop.website}
+//               </a>
+//             </div>
+//           )}
+//         </div>
+
+//         {/* Timings & GST */}
+//         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm text-gray-700">
+//           <div>
+//             <h2 className="font-medium mb-2 flex items-center gap-2">
+//               <FaRegClock className="text-yellow-500 w-5 h-5" /> Shop opening
+//               time
+//             </h2>
+//             <p className="ml-6">Opens: {shop.openingTime}</p>
+//             <p className="ml-6">Closes: {shop.closingTime}</p>
+//           </div>
+//           <div className="flex items-center gap-2 text-sm">
+//             <FaBuilding className="text-cyan-500 w-5 h-5" />
+//             <h2 className="font-medium">GST Number:</h2>
+//             <span className="text-gray-700 font-semibold">
+//               {shop.gstNumber || "Not Provided"}
+//             </span>
+//           </div>
+//         </div>
+
+//         {/* Tax Rates */}
+//         {shop.taxRates?.length > 0 && (
+//           <div>
+//             <h2 className="text-sm font-medium text-gray-800 mb-2 flex items-center gap-2">
+//               <FaTags className="text-pink-500" /> Tax Rates
+//             </h2>
+//             <ul className="list-disc ml-6 space-y-1 ">
+//               {shop.taxRates.map((tax) => (
+//                 <li key={tax._id}>
+//                   {tax.category}: {tax.rate}%
+//                 </li>
 //               ))}
 //             </ul>
 //           </div>
+//         )}
 
-//           {/* GST Number */}
-//           <div className="mt-6">
-//             <p className="text-gray-700"><strong>GST Number: </strong>{shop.gstNumber}</p>
+//         {/* Secondary Categories */}
+//         {shop.secondaryCategories?.length > 0 && (
+//           <div>
+//             <h2 className="text-sm font-medium text-gray-800 mb-2 flex items-center gap-2">
+//               <FaTags className="text-yellow-500" /> Secondary Categories:
+//             </h2>
+//             <div className="flex flex-wrap gap-2 ml-6">
+//               {shop.secondaryCategories.map((cat, idx) => (
+//                 <span
+//                   key={idx}
+//                   className="px-3 py-1 bg-gray-200 rounded-full text-sm text-gray-700"
+//                 >
+//                   {cat}
+//                 </span>
+//               ))}
+//             </div>
 //           </div>
+//         )}
+
+//         {/* Payment Methods */}
+//         {shop.paymentMethods?.length > 0 && (
+//           <div>
+//             <h2 className="text-sm font-medium text-gray-800 mb-2 flex items-center gap-2">
+//               <FaMoneyBillWave className="text-green-500 w-5 h-5" /> Accepted
+//               Payment Methods
+//             </h2>
+//             <div className="flex flex-wrap gap-3">
+//               {shop.paymentMethods.map((method, idx) => (
+//                 <span
+//                   key={idx}
+//                   className="flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
+//                 >
+//                   {paymentIcons[method] || <Wallet className="w-5 h-5" />}
+//                   {method}
+//                 </span>
+//               ))}
+//             </div>
+//           </div>
+//         )}
+
+//         {/* Verification Status */}
+//         <div className="flex items-center gap-2 text-sm text-gray-700">
+//           {shop.verified ? (
+//             <FaCheckCircle className="text-green-500" />
+//           ) : (
+//             <FaTimesCircle className="text-red-500" />
+//           )}
+//           <span>{shop.verified ? "Verified Shop" : "Not Verified"}</span>
 //         </div>
 
-//         {/* Manager Information */}
-//         <div className="mt-8 bg-gray-100 p-6 rounded-lg shadow-md w-full">
-//           <h3 className="text-2xl font-semibold text-gray-700">Manager Details</h3>
-//           <div className="space-y-2 text-gray-700 mt-4">
-//             <p><strong>Name: </strong>{shop.manager.name}</p>
-//             <p><strong>Phone: </strong>{shop.manager.phone}</p>
-//             <p><strong>Email: </strong>{shop.manager.email}</p>
-//           </div>
+//         {/* Created Date */}
+//         <div className="flex items-center gap-2 text-sm text-gray-600">
+//           <FaCalendarAlt className="text-gray-500" />
+//           Created At: {new Date(shop.createdAt).toLocaleString()}
 //         </div>
+
+//         {/* Social Links */}
+//         {(socialLinks.instagram ||
+//           socialLinks.facebook ||
+//           socialLinks.twitter) && (
+//           <div className="flex items-center gap-5 mt-6">
+//             {socialLinks.instagram && (
+//               <a
+//                 href={socialLinks.instagram}
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//                 className="text-pink-500 hover:text-pink-700 text-2xl"
+//               >
+//                 <FaInstagram />
+//               </a>
+//             )}
+//             {socialLinks.facebook && (
+//               <a
+//                 href={socialLinks.facebook}
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//                 className="text-blue-600 hover:text-blue-800 text-2xl"
+//               >
+//                 <FaFacebook />
+//               </a>
+//             )}
+//             {socialLinks.twitter && (
+//               <a
+//                 href={socialLinks.twitter}
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//                 className="text-sky-400 hover:text-sky-600 text-2xl"
+//               >
+//                 <FaTwitter />
+//               </a>
+//             )}
+//           </div>
+//         )}
 //       </div>
 //     </div>
 //   );
 // };
 
 // export default ShopDetails;
+
+
+
 
 import React from "react";
 import {
@@ -94,206 +243,233 @@ import {
   FaFacebook,
   FaTwitter,
   FaMapMarkerAlt,
+  FaGlobe,
+  FaRegClock,
+  FaMoneyBillWave,
+  FaBuilding,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaCalendarAlt,
+  FaTags,
+  FaUser,
+  FaIdBadge,
 } from "react-icons/fa";
-import { Clock, Sun, Moon } from "lucide-react";
-import { CreditCard, Wallet, Banknote } from "lucide-react";
+import { Banknote, CreditCard, Wallet } from "lucide-react";
 
 const ShopDetails = ({ shop }) => {
-  const paymentIcons = {
-    Cash: <Banknote className="w-5 h-5 text-green-600" />,
-    Card: <CreditCard className="w-5 h-5 text-indigo-600" />,
-    UPI: <Wallet className="w-5 h-5 text-blue-600" />,
-  };
-  return (
-    <div className="min-h-screen  py-12 px-4">
-      <div className="max-w-7xl mx-auto space-y-8">
-        {/* Main Shop Card */}
-        <div className="bg-white rounded-lg shadow-xl p-8 ">
-          <div className="flex items-center justify-between space-x-6">
-            {/* Shop Logo */}
-            <div className="flex items-center space-x-6">
-              {/* <img
-                src={shop.logo}
-                alt={`${shop.shopName} Logo`}
-                className="w-28 h-28 rounded-full shadow-2xl border-4 border-cyan-500"
-              /> */}
-              <div>
-                <h1 className="text-4xl font-semibold text-gray-800">
-                  {shop.shopName}
-                </h1>
-                <p className="text-lg text-gray-600">{shop.shopType}</p>
-              </div>
-            </div>
+  if (!shop || Object.keys(shop).length === 0) {
+    return (
+      <div className="max-w-3xl mx-auto p-6 text-center text-gray-600">
+        <p className="text-lg font-semibold mb-2">No Shop Registered</p>
+        <p>Please register your shop to view details here.</p>
+      </div>
+    );
+  }
 
-            {/* Shop Status */}
-            <div className="text-sm text-gray-500">
-              <span className="bg-green-100 text-green-800 py-2 px-4 rounded-lg text-xs font-semibold">
-                {shop.status}
-              </span>
+  const socialLinks = shop?.socialLinks || {};
+  const paymentIcons = {
+    Cash: <FaMoneyBillWave className="w-5 h-5 text-green-500" />,
+    Card: <CreditCard className="w-5 h-5 text-indigo-500" />,
+    UPI: <Wallet className="w-5 h-5 text-blue-500" />,
+  };
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 py-10">
+      <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
+        {/* Header */}
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <FaBuilding className="text-cyan-600 w-8 h-8" />
+            <div>
+              <h1 className="text-2xl font-bold text-cyan-800">
+                {shop.shopName}
+              </h1>
+              <p className="text-sm text-gray-500">{shop.shopType}</p>
             </div>
           </div>
+          <span
+            className={`text-xs font-semibold px-3 py-1 rounded-full ${
+              shop.status === "Active"
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            {shop.status || "Inactive"}
+          </span>
+        </div>
 
-          {/* Shop Details */}
-          <div className="mt-8 text-gray-700 space-y-4">
-            <div className="flex items-center space-x-3">
-              <FaMapMarkerAlt className="text-cyan-500 text-xl" />
-              <span>{shop.address}</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              <FaPhoneAlt className="text-cyan-500 text-xl" />
-              <a
-                href={`tel:${shop.phone}`}
-                className="hover:text-cyan-600 transition-all"
-              >
-                {shop.phone}
-              </a>
-            </div>
-            <div className="flex items-center space-x-3">
-              <FaEnvelope className="text-cyan-500 text-xl" />
-              <a
-                href={`mailto:${shop.email}`}
-                className="hover:text-cyan-600 transition-all"
-              >
-                {shop.email}
-              </a>
-            </div>
-            <p className="mt-2">
-              <strong>Website: </strong>
+        {/* Basic Info */}
+        <div className="grid sm:grid-cols-2 gap-4 text-sm text-gray-700">
+          <div className="flex items-center gap-2">
+            <FaUser className="text-orange-500" />
+            <span>User ID: {shop.userId}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <FaIdBadge className="text-indigo-500" />
+            <span>Shop ID: {shop.shopId}</span>
+          </div>
+        </div>
+
+        {/* Contact Info */}
+        <div className="space-y-3 text-gray-700 text-sm">
+          <div className="flex items-center gap-2">
+            <FaMapMarkerAlt className="text-red-500" />
+            <span>{shop.address}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <FaPhoneAlt className="text-green-500" />
+            <a href={`tel:${shop.phone}`} className="hover:underline">
+              {shop.phone}
+            </a>
+          </div>
+          <div className="flex items-center gap-2">
+            <FaEnvelope className="text-blue-500" />
+            <a href={`mailto:${shop.email}`} className="hover:underline">
+              {shop.email}
+            </a>
+          </div>
+          {shop.website && (
+            <div className="flex items-center gap-2">
+              <FaGlobe className="text-purple-500" />
               <a
                 href={shop.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-cyan-500 hover:text-cyan-600 transition-all"
+                className="hover:underline"
               >
                 {shop.website}
               </a>
-            </p>
-          </div>
-
-           {/* GST Number */}
-           <div className="mt-8 bg-gray-50 p-6 rounded-lg shadow-lg">
-            <p className="text-lg text-gray-600">
-              <strong>GST Number: </strong>
-              {shop.gstNumber}
-            </p>
-          </div>
-
-          {/* Opening & Closing Times */}
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-8">
-            <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md hover:shadow-2xl transition-all duration-300">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="bg-cyan-100 p-3 rounded-full">
-                  <Clock className="text-cyan-600 w-6 h-6" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800">
-                  Operating Hours
-                </h3>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <div className="bg-yellow-100 p-2 rounded-full">
-                    <Sun className="text-yellow-500 w-5 h-5" />
-                  </div>
-                  <p className="text-gray-700 font-medium">
-                    <strong>Opens:</strong> {shop.openingTime}
-                  </p>
-                </div>
-
-                <div className="flex items-center space-x-3">
-                  <div className="bg-purple-100 p-2 rounded-full">
-                    <Moon className="text-purple-500 w-5 h-5" />
-                  </div>
-                  <p className="text-gray-700 font-medium">
-                    <strong>Closes:</strong> {shop.closingTime}
-                  </p>
-                </div>
-              </div>
             </div>
-
-            {/* Payment Methods */}
-            {/* <div className="bg-gray-50 p-4 rounded-xl shadow">
-              <h3 className="text-lg font-semibold text-gray-800 flex items-center mb-3">
-                <CreditCard className="w-5 h-5 mr-2 text-cyan-600" />
-                Payment Methods
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                {shop.paymentMethods.map((method, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow text-gray-700"
-                  >
-                    {paymentIcons[method] || (
-                      <Wallet className="w-5 h-5 text-gray-500" />
-                    )}
-                    {method}
-                  </div>
-                ))}
-              </div>
-            </div> */}
-          </div>
-
-         
+          )}
         </div>
 
-        {/* Manager Information */}
-        {/* <div className="bg-white rounded-lg shadow-xl p-8 ">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-            Manager Details
-          </h3>
-          <div className="text-gray-700">
-            <p>
-              <strong>Name: </strong>
-              {shop.manager.name}
-            </p>
-            <div className="flex items-center space-x-3">
-              <FaPhoneAlt className="text-cyan-500 text-xl" />
-              <a
-                href={`tel:${shop.manager.phone}`}
-                className="hover:text-cyan-600 transition-all"
-              >
-                {shop.manager.phone}
-              </a>
-            </div>
-            <div className="flex items-center space-x-3">
-              <FaEnvelope className="text-cyan-500 text-xl" />
-              <a
-                href={`mailto:${shop.manager.email}`}
-                className="hover:text-cyan-600 transition-all"
-              >
-                {shop.manager.email}
-              </a>
+        {/* Timings & GST */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm text-gray-700">
+          <div>
+            <h2 className="font-medium mb-2 flex items-center gap-2">
+              <FaRegClock className="text-yellow-500 w-5 h-5" /> Shop opening time
+            </h2>
+            <p className="ml-6">Opens: {shop.openingTime}</p>
+            <p className="ml-6">Closes: {shop.closingTime}</p>
+          </div>
+          <div className="flex items-center gap-2 text-sm">
+            <FaBuilding className="text-cyan-500 w-5 h-5" />
+            <h2 className="font-medium">GST Number:</h2>
+            <span className="text-gray-700 font-semibold">
+              {shop.gstNumber || "Not Provided"}
+            </span>
+          </div>
+        </div>
+
+        {/* Tax Rates */}
+        {shop.taxRates?.length > 0 && (
+          <div>
+            <h2 className="text-sm font-medium text-gray-800 mb-2 flex items-center gap-2">
+              <FaTags className="text-pink-500" /> Tax Rates
+            </h2>
+            <ul className="list-disc ml-6 space-y-1">
+              {shop.taxRates.map((tax) => (
+                <li className="font-normal text-gray-600" key={tax._id}>
+                  {tax.category}: {tax.rate}%
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Secondary Categories */}
+        {shop.secondaryCategories?.length > 0 && (
+          <div>
+            <h2 className="text-sm font-medium text-gray-800 mb-2 flex items-center gap-2">
+              <FaTags className="text-yellow-500" /> Secondary Categories:
+            </h2>
+            <div className="flex flex-wrap gap-2 ml-6">
+              {shop.secondaryCategories.map((cat, idx) => (
+                <span
+                  key={idx}
+                  className="px-3 py-1 bg-gray-200 rounded-full text-sm text-gray-700"
+                >
+                  {cat}
+                </span>
+              ))}
             </div>
           </div>
-        </div> */}
+        )}
 
-        {/* Social Media Links */}
-        {/* <div className="flex justify-center space-x-8 mt-6">
-          <a
-            href={shop.socialLinks.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-3xl text-pink-600 hover:text-pink-800 transition-all"
-          >
-            <FaInstagram />
-          </a>
-          <a
-            href={shop.socialLinks.facebook}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-3xl text-blue-600 hover:text-blue-800 transition-all"
-          >
-            <FaFacebook />
-          </a>
-          <a
-            href={shop.socialLinks.twitter}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-3xl text-blue-400 hover:text-blue-600 transition-all"
-          >
-            <FaTwitter />
-          </a>
-        </div> */}
+        {/* Payment Methods */}
+        {shop.paymentMethods?.length > 0 && (
+          <div>
+            <h2 className="text-sm font-medium text-gray-800 mb-2 flex items-center gap-2">
+              <FaMoneyBillWave className="text-green-500 w-5 h-5" /> Accepted
+              Payment Methods
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              {shop.paymentMethods.map((method, idx) => (
+                <span
+                  key={idx}
+                  className="flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
+                >
+                  {paymentIcons[method] || <Wallet className="w-5 h-5" />}
+                  {method}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Verification Status */}
+        <div className="flex items-center gap-2 text-sm text-gray-700">
+          {shop.verified ? (
+            <FaCheckCircle className="text-green-500" />
+          ) : (
+            <FaTimesCircle className="text-red-500" />
+          )}
+          <span>{shop.verified ? "Verified Shop" : "Not Verified"}</span>
+        </div>
+
+        {/* Created Date */}
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <FaCalendarAlt className="text-gray-500" />
+          Created At: {new Date(shop.createdAt).toLocaleString()}
+        </div>
+
+        {/* Social Links */}
+        {(socialLinks.instagram ||
+          socialLinks.facebook ||
+          socialLinks.twitter) && (
+          <div className="flex items-center gap-5 mt-6">
+            {socialLinks.instagram && (
+              <a
+                href={socialLinks.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-pink-500 hover:text-pink-700 text-2xl"
+              >
+                <FaInstagram />
+              </a>
+            )}
+            {socialLinks.facebook && (
+              <a
+                href={socialLinks.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:text-blue-800 text-2xl"
+              >
+                <FaFacebook />
+              </a>
+            )}
+            {socialLinks.twitter && (
+              <a
+                href={socialLinks.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sky-400 hover:text-sky-600 text-2xl"
+              >
+                <FaTwitter />
+              </a>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
