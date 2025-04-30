@@ -11,6 +11,9 @@ import userRoutes from "./routes/userRoutes.js";
 import shopRoutes from "./routes/shopRoutes.js";
 import profileRoutes from "./routes/updateProfileRoute.js";
 import productRoutes from "./routes/product routes/productRoutes.js";
+import customerRoutes from './routes/customerRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+
 
 dotenv.config();
 
@@ -81,6 +84,9 @@ app.use("/api/shops", shopRoutes);
 app.post("/api/upload-profile", upload.single("image"), uploadProfilePicture);
 app.use("/api/profile", profileRoutes);
 app.use("/api/products", productRoutes);
+app.use('/api/customers', customerRoutes);
+app.use('/api/orders', orderRoutes);
+
 
 // MongoDB connection
 mongoose

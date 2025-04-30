@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import axios from "axios";
 import { useNotification } from "../context/NotificationProvider";
+import { useNavigate } from "react-router-dom";
 
 const ShopRegisterForm = () => {
-  const { triggerNotification } = useNotification(); 
+  const { triggerNotification } = useNotification();
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -32,6 +34,26 @@ const ShopRegisterForm = () => {
     name: "taxRates",
   });
 
+  // if (sessionStorage.getItem("shopRegistered") === "true") {
+  //   return (
+  //     <div className="flex items-center justify-center min-h-[60vh]">
+  //       <div className="bg-white p-8 rounded-lg shadow-lg text-center max-w-md">
+  //         <img
+  //           src="https://cdn-icons-png.flaticon.com/512/190/190411.png"
+  //           alt="Registered"
+  //           className="w-20 h-20 mx-auto mb-4"
+  //         />
+  //         <h2 className="text-2xl font-bold text-cyan-600 mb-2">
+  //           Shop Already Registered
+  //         </h2>
+  //         <p className="text-gray-600">
+  //           You have already registered your shop. Thank you!
+  //         </p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     const userProfile = JSON.parse(sessionStorage.getItem("userProfile"));
@@ -39,7 +61,7 @@ const ShopRegisterForm = () => {
 
     const payload = { ...data, userId: userID };
     try {
-      await axios.post(`${apiUrl}/shops/shop-register`, payload, {
+      await axios.post(`${apiUrl}/shops/register`, payload, {
         withCredentials: true,
       });
       triggerNotification({
@@ -48,6 +70,11 @@ const ShopRegisterForm = () => {
       });
       sessionStorage.setItem("shopRegistered", "true");
       reset();
+
+      // Redirect after a 3-second delay
+      setTimeout(() => {
+        navigate("/my-shop");
+      }, 3000);
     } catch (err) {
       console.error("Error registering shop:", err);
       // triggerNotification("Error registering shop");
