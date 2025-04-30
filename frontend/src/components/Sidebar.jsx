@@ -52,6 +52,7 @@ const Sidebar = () => {
                 SimplifyERP
               </h2>
             )}
+
             <button
               onClick={() => setCollapsed(!collapsed)}
               className="p-1 bg-gray-100 hover:bg-gray-100 rounded transition"
@@ -83,7 +84,7 @@ const Sidebar = () => {
             {/* Shop Menu Item */}
             <li>
               <NavLink
-                to="/my-shop" // Direct link to the My Shop page
+                to="/my-shop"
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-3 py-2 rounded-md transition ${
                     isActive

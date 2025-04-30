@@ -31,9 +31,14 @@ const ShopPage = () => {
         setShop(shopData);
 
         if (shopData) {
-          sessionStorage.setItem("shopRegistered", "true"); // Mark shop as registered
+          sessionStorage.setItem("shopRegistered", "true"); 
+          sessionStorage.setItem("shopId", shopData.shopId);
+          console.log();
+          
         } else {
-          sessionStorage.removeItem("shopRegistered"); // Clear shop registration status
+          sessionStorage.removeItem("shopRegistered"); 
+          sessionStorage.removeItem("shopId");
+
         }
       } catch (error) {
         console.error("Error fetching shop details:", error);
