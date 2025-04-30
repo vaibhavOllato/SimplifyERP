@@ -18,12 +18,14 @@ import ShopRegisterForm from "./pages/ShopRegisterForm";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import ResetPasswordPage from "./components/ResetPasswordPage";
 import HelpCenter from "./pages/HelpCenter";
+import { ProductProvider } from "./context/ProductContext";
 // import { ShopProvider } from './context/ShopContext';
 
 const App = () => {
   return (
     <AuthProvider>
       <NotificationProvider>
+        <ProductProvider>
         <Routes>
           {/* Landing Page does not need Layout, so we keep it separate */}
           <Route path="/" element={<LandingPage />} />
@@ -50,6 +52,7 @@ const App = () => {
             <Route path="helpCenter" element={<HelpCenter />} />
           </Route>
         </Routes>
+        </ProductProvider>
       </NotificationProvider>
     </AuthProvider>
   );

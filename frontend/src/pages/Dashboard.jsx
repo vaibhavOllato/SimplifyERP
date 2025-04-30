@@ -1,4 +1,6 @@
-import React from "react";
+// import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Package,
   ShoppingBag,
@@ -20,6 +22,7 @@ import {
   LineElement,
   BarElement,
 } from "chart.js";
+import { useProductContext } from "../context/ProductContext";
 
 // Register necessary chart components
 ChartJS.register(
@@ -35,11 +38,18 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  // Sample data for cards
+  const [totalCustomers, setTotalCustomers] = useState(0);
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
+  const { totalProducts } = useProductContext();
+
+    // Just for debug: check value
+    console.log("Total Products from Context:", totalProducts);
+
+    
   const stats = [
     {
       title: "Total Stocks",
-      value: 1200,
+      value: totalProducts,
       icon: <Package size={32} className="text-cyan-600" />,
     },
     {
@@ -54,10 +64,43 @@ const Dashboard = () => {
     },
     {
       title: "Total Customers",
-      value: 150,
+      value: totalCustomers,
       icon: <Users size={32} className="text-cyan-600" />,
     },
   ];
+
+  useEffect(() => {
+    const fetchCustomerCount = async () => {
+      try {
+        const shopId = sessionStorage.getItem("shopId");
+
+        if (!shopId) {
+          console.error("Shop ID is not available in session storage.");
+          return;
+        }
+
+        const response = await axios.get(
+         `${apiUrl}/customers/counts-by-shop`,
+          {
+            params: {
+              shopId: shopId, // Pass the dynamic shopId from session
+            },
+          }
+        );
+
+        // Ensure the response format is correct
+        const customerCount =
+          response.data.shopCustomerCounts?.[0]?.totalCustomers || 0;
+        console.log("Customer count:", customerCount); // Verify the customer count
+
+        setTotalCustomers(customerCount); // Set state with customer count
+      } catch (error) {
+        console.error("Error fetching customer count:", error);
+      }
+    };
+
+    fetchCustomerCount();
+  }, []);
 
   const additionalStats = [
     {
@@ -157,7 +200,7 @@ const Dashboard = () => {
           >
             <div className="flex items-center gap-3 mb-4">
               {stat.icon}
-              <h3 className="text-lg font-semibold text-gray-600">
+              <h3 className="text-base font-semibold text-gray-600">
                 {stat.title}
               </h3>
             </div>

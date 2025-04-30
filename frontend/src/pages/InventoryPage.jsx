@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useProductContext } from "../context/ProductContext";
 
 const Inventory = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
+  // const [totalProducts, setTotalProducts] = useState(0);
   const [inventory, setInventory] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  // const { setTotalProducts } = useProductContext();
+  const { totalProducts, setTotalProducts } = useProductContext();
+
   const [newProduct, setNewProduct] = useState({
     name: "",
     code: "",
@@ -22,6 +27,7 @@ const Inventory = () => {
         const response = await axios.get(
           `${apiUrl}/products/by-shop/${shopId}`
         );
+        const products = response.data.products;
         setInventory(
           response.data.products.map((product) => ({
             name: product.productName,
@@ -34,6 +40,9 @@ const Inventory = () => {
             status: product.status,
           }))
         );
+        setTotalProducts(response.data.totalProducts);
+        // setTotalProductss(products.length); 
+        setTotalProducts(products.length); 
       } catch (error) {
         console.error("Error fetching inventory:", error);
       }
@@ -88,6 +97,9 @@ const Inventory = () => {
           },
         ]);
 
+          // 👇 Increment totalProducts here
+  setTotalProducts((prev) => prev + 1);
+
         setShowModal(false);
         setNewProduct({
           name: "",
@@ -122,6 +134,13 @@ const Inventory = () => {
         >
           + Add Product
         </button>
+      </div>
+
+      <div className="mb-4">
+        <div className="bg-white shadow rounded-md px-6 py-4 text-lg text-gray-700">
+          🧮 Total Products in Inventory:{" "}
+          <span className="font-bold">{totalProducts}</span>
+        </div>
       </div>
 
       <div className="overflow-x-auto shadow rounded-lg border border-gray-200 bg-white">
