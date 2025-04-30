@@ -156,11 +156,11 @@ const CustomerListPage = () => {
         <table className="min-w-full text-sm text-gray-700">
           <thead className="bg-cyan-600 text-white uppercase text-xs">
             <tr>
-              <th className="px-6 py-4 text-left">Sr. No.</th>
-              <th className="px-6 py-4 text-left">Customer ID</th>
-              <th className="px-6 py-4 text-left">Name</th>
-              <th className="px-6 py-4 text-left">Phone</th>
-              <th className="px-6 py-4 text-left">Email</th>
+              <th className="px-6 py-4 text-center">Sr. No.</th>
+              <th className="px-6 py-4 text-center">Customer ID</th>
+              <th className="px-6 py-4 text-center">Name</th>
+              <th className="px-6 py-4 text-center">Phone</th>
+              <th className="px-6 py-4 text-center">Email</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -170,11 +170,11 @@ const CustomerListPage = () => {
                   key={customer._id}
                   className="hover:bg-gray-50 transition-colors duration-200"
                 >
-                  <td className="px-6 py-4">{index + 1}</td>
-                  <td className="px-6 py-4">{customer._id}</td>
-                  <td className="px-6 py-4">{customer.name}</td>
-                  <td className="px-6 py-4">{customer.phone}</td>
-                  <td className="px-6 py-4">{customer.email}</td>
+                  <td className="px-6 py-4 text-center">{index + 1}</td>
+                  <td className="px-6 py-4 text-center">{customer.customerId}</td>
+                  <td className="px-6 py-4 text-center">{customer.name}</td>
+                  <td className="px-6 py-4 text-center">{customer.phone}</td>
+                  <td className="px-6 py-4 text-center">{customer.email}</td>
                 </tr>
               ))
             ) : (

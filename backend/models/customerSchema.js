@@ -6,6 +6,11 @@ const customerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    customerId: {
+      type: String,
+      unique: true, // Ensure uniqueness
+      required: true
+    },
     name: {
       type: String,
       required: true,

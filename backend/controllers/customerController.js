@@ -13,7 +13,13 @@ export const createCustomer = async (req, res) => {
       return res.status(400).json({ message: 'Customer already exists with this email for the shop' });
     }
 
-    const customer = new Customer({ name, phone, email, shopId });
+    // Count existing customers for this shop
+    const count = await Customer.countDocuments({ shopId });
+
+     // Generate new customerId
+     const customerId = `${shopId}-CUST${String(count + 1).padStart(3, '0')}`;
+
+    const customer = new Customer({ name, phone, email, shopId, customerId });
     await customer.save();
 
     res.status(201).json({ message: 'Customer created successfully', customer });

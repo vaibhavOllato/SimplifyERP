@@ -17,6 +17,7 @@ import ShopPage from "./pages/ShopPage";
 import ShopRegisterForm from "./pages/ShopRegisterForm";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import ResetPasswordPage from "./components/ResetPasswordPage";
+import HelpCenter from "./pages/HelpCenter";
 // import { ShopProvider } from './context/ShopContext';
 
 const App = () => {
@@ -46,6 +47,7 @@ const App = () => {
             <Route path="customers" element={<CustomerListPage />} />
             <Route path="my-shop" element={<ShopPage />} />
             <Route path="shop-register-form" element={<ShopRegisterForm />} />
+            <Route path="helpCenter" element={<HelpCenter />} />
           </Route>
         </Routes>
       </NotificationProvider>

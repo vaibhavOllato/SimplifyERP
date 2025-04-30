@@ -126,7 +126,7 @@ const Inventory = () => {
 
       <div className="overflow-x-auto shadow rounded-lg border border-gray-200 bg-white">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-cyan-50">
+          <thead className="bg-cyan-600 text-white">
             <tr>
               {[
                 "Sr. No.",
@@ -141,14 +141,14 @@ const Inventory = () => {
               ].map((heading) => (
                 <th
                   key={heading}
-                  className="px-4 py-3 text-left text-sm font-semibold text-gray-600 tracking-wider"
+                  className="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider"
                 >
                   {heading}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-gray-100 text-center">
             {inventory.map((product, index) => (
               <tr
                 key={index}

@@ -25,8 +25,8 @@ const Sidebar = () => {
   ];
 
   const bottomItems = [
-    { name: "Help Center", icon: <LifeBuoy size={20} />, path: "/setting" },
-    { name: "Settings", icon: <Settings size={20} />, path: "/setting" },
+    { name: "Account", icon: <Settings size={20} />, path: "/setting" },
+    { name: "Help Center", icon: <LifeBuoy size={20} />, path: "/helpCenter" },
   ];
 
   const openLogoutModal = () => {
