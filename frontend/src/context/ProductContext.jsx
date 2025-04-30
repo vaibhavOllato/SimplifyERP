@@ -14,7 +14,9 @@ export const ProductProvider = ({ children }) => {
         const shopId = sessionStorage.getItem("shopId");
         if (!shopId) return;
 
-        const response = await axios.get(`${apiUrl}/products/by-shop/${shopId}`);
+        const response = await axios.get(
+          `${apiUrl}/products/by-shop/${shopId}`
+        );
         const products = response.data.products;
         setTotalProducts(products.length);
       } catch (error) {
