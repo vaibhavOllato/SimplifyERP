@@ -66,7 +66,8 @@ const LoginPage = () => {
 
       triggerNotification({
         type: "error",
-        message: errorMsg,
+        // message: errorMsg,
+        message: err.response?.data?.message || "Login failed.",
       });
     }
   };
