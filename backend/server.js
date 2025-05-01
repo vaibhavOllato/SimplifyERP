@@ -13,7 +13,7 @@ import profileRoutes from "./routes/updateProfileRoute.js";
 import productRoutes from "./routes/product routes/productRoutes.js";
 import customerRoutes from './routes/customerRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
-
+import adminRoutes from './routes/adminRoutes.js';
 
 dotenv.config();
 
@@ -86,7 +86,7 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/products", productRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/orders', orderRoutes);
-
+app.use('/api/admin', adminRoutes);
 
 // MongoDB connection
 mongoose
