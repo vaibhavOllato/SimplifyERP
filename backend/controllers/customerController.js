@@ -10,18 +10,16 @@ export const createCustomer = async (req, res) => {
 
     const exists = await Customer.findOne({ email, shopId });
     if (exists) {
-      return res
-        .status(400)
-        .json({
-          message: "Customer already exists with this email for the shop",
-        });
+      return res.status(400).json({
+        message: "Customer already exists with this email for the shop",
+      });
     }
 
     // Count existing customers for this shop
     const count = await Customer.countDocuments({ shopId });
 
     // Generate new customerId
-    const customerId = `${shopId}-CUST${String(count + 1).padStart(3, "0")}`;
+    const customerId = `CUST-${shopId}-${String(count + 1).padStart(3, "0")}`;
 
     const customer = new Customer({ name, phone, email, shopId, customerId });
     await customer.save();
@@ -49,32 +47,6 @@ export const getAllCustomers = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch customers" });
   }
 };
-
-// // ✅ Get total customers grouped by shopId
-// export const getCustomerCountsByShop = async (req, res) => {
-//   try {
-//     const shopCustomerCounts = await Customer.aggregate([
-//       {
-//         $group: {
-//           _id: "$shopId",
-//           totalCustomers: { $sum: 1 }
-//         }
-//       },
-//       {
-//         $project: {
-//           shopId: "$_id",
-//           totalCustomers: 1,
-//           _id: 0
-//         }
-//       }
-//     ]);
-
-//     res.status(200).json({ shopCustomerCounts });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: 'Failed to count customers' });
-//   }
-// };
 
 export const getCustomerCountsByShop = async (req, res) => {
   try {

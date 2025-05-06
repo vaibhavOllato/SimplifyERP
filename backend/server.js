@@ -15,7 +15,7 @@ import productRoutes from "./routes/product routes/productRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
-
+import shopAdminRoutes from './routes/adminShopRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -100,6 +100,10 @@ app.use("/api/products", productRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin", adminRoutes);
+
+
+app.use("/api/admin", shopAdminRoutes);
+
 
 // MongoDB connection
 mongoose
