@@ -11,9 +11,12 @@ import LoginPage from "./pages/LoginPage";
 import ManageShops from "./pages/ManageShops";
 import ManageUsers from "./pages/ManageUsers";
 import ReportsAnalytics from "./pages/ReportsAnalytics";
+import { NotificationProvider } from "./context/NotificationProvider";
+
 
 function App() {
   return (
+    <NotificationProvider>
     <Router>
       <Routes>
         {/* Default redirect or fallback */}
@@ -37,6 +40,7 @@ function App() {
         </Route>
       </Routes>
     </Router>
+    </NotificationProvider>
   );
 }
 

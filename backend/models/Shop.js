@@ -33,7 +33,7 @@ const shopSchema = new mongoose.Schema({
   taxRates: [taxRateSchema], // Array of tax rate objects
 
   verified: { type: Boolean, default: false }, // Shop Verification Status
-  
+  ownerName: { type: String, required: true }, // Shop Owner Name
   createdAt: { type: Date, default: Date.now }, // Date of Shop Creation
 });
 

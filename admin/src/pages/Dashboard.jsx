@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { FaStore, FaUsers } from "react-icons/fa";
 import adminAxios from "../utils/axiosInstance";
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [shopCount, setShopCount] = useState(null);
+  const [userCount, setUserCount] = useState(null);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -24,31 +26,50 @@ const Dashboard = () => {
       }
     };
 
+    const fetchUserCount = async () => {
+      try {
+        const res = await adminAxios.get("/users-count");
+        setUserCount(res.data.count);
+      } catch (err) {
+        console.error("Failed to load user count", err);
+      }
+    };
+
     fetchStats();
     fetchShopCount();
+    fetchUserCount();
   }, []);
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
-      {stats ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-white shadow rounded">
-            Total Shops: {stats.totalShops}
+    <div className="p-6">
+      <h1 className="text-2xl font-bold text-gray-500 mb-6">Admin Dashboard</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Total Shops Card */}
+        <div className="flex items-center p-6 bg-cyan-100 rounded-xl shadow hover:shadow-md transition">
+          <div className="p-4 bg-cyan-600 text-white rounded-full mr-4">
+            <FaStore className="text-2xl" />
           </div>
-          <div className="p-4 bg-white shadow rounded">
-            Total Users: {stats.totalUsers}
-          </div>
-          <div className="p-4 bg-white shadow rounded">
-            Total Orders: {stats.totalOrders}
-          </div>
-          <div className="p-4 shadow rounded col-span-2 md:col-span-1 bg-cyan-100 font-semibold">
-            Verified Shop Count: {shopCount !== null ? shopCount : "Loading..."}
+          <div>
+            <p className="text-lg font-semibold text-gray-800">Total Shops</p>
+            <p className="text-2xl font-bold text-cyan-800">
+              {shopCount !== null ? shopCount : "Loading..."}
+            </p>
           </div>
         </div>
-      ) : (
-        <p>Loading stats...</p>
-      )}
+
+        {/* Total Users Card */}
+        <div className="flex items-center p-6 bg-emerald-100 rounded-xl shadow hover:shadow-md transition">
+          <div className="p-4 bg-emerald-600 text-white rounded-full mr-4">
+            <FaUsers className="text-2xl" />
+          </div>
+          <div>
+            <p className="text-lg font-semibold text-gray-800">Total Users</p>
+            <p className="text-2xl font-bold text-emerald-800">
+              {userCount !== null ? userCount : "Loading..."}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

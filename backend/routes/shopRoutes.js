@@ -27,7 +27,7 @@ import {
 const router = express.Router();
 
 // Route to register a new shop
-router.post("/register", registerShop);
+router.post("/shop-register", registerShop);
 
 // Route to get shop details for a specific userId
 router.get("/user/:userId", getShopDetails);

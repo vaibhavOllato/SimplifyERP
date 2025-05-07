@@ -232,9 +232,6 @@
 
 // export default ShopDetails;
 
-
-
-
 import React from "react";
 import {
   FaPhoneAlt,
@@ -308,6 +305,12 @@ const ShopDetails = ({ shop }) => {
             <FaIdBadge className="text-indigo-500" />
             <span>Shop ID: {shop.shopId}</span>
           </div>
+          <div className="flex items-center gap-2">
+            <FaUser className="text-cyan-500" />
+            <span>
+              Shop Owner: <span className="font-bold">{shop.ownerName}</span>
+            </span>
+          </div>
         </div>
 
         {/* Contact Info */}
@@ -347,7 +350,8 @@ const ShopDetails = ({ shop }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm text-gray-700">
           <div>
             <h2 className="font-medium mb-2 flex items-center gap-2">
-              <FaRegClock className="text-yellow-500 w-5 h-5" /> Shop opening time
+              <FaRegClock className="text-yellow-500 w-5 h-5" /> Shop opening
+              time
             </h2>
             <p className="ml-6">Opens: {shop.openingTime}</p>
             <p className="ml-6">Closes: {shop.closingTime}</p>

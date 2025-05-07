@@ -110,11 +110,11 @@ const ShopRegisterForm = () => {
             placeholder="Shop Type"
             className="input"
           />
-          {/* <input
-            {...register("logo")}
-            placeholder="Logo URL"
+          <input
+            {...register("ownerName")}
+            placeholder="Shop owner name"
             className="input"
-          /> */}
+          />
           <input
             {...register("address")}
             placeholder="Address"
