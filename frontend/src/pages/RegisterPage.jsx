@@ -6,7 +6,7 @@ import Footer from "../components/landing/Footer";
 import { useNotification } from "../context/NotificationProvider";
 
 const RegisterPage = () => {
-  const { triggerNotification } = useNotification(); // Use the notification hook
+  const { triggerNotification } = useNotification();
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -35,23 +35,16 @@ const RegisterPage = () => {
 
     try {
       const response = await axios.post(`${apiUrl}/users/register`, formData);
-      console.log("Registration Success:", response.data);
-      // triggerNotification("Registration successful!");
-      triggerNotification({
-        type: "success",
-        message: "Registration successful!",
-      });
+      // console.log("Registration Success:", response.data);
+      triggerNotification("Registration successful!", "success");
 
       navigate("/login");
     } catch (err) {
       console.log("Registration Error:", err);
-      // triggerNotification(
-      //   err.response?.data?.message || "Registration failed."
-      // );
-      triggerNotification({
-        type: "error",
-        message: `err.response?.data?.message || "Registration failed."`,
-      });
+      triggerNotification(
+        `err.response?.data?.message || "Registration failed."`,
+        "error"
+      );
     }
   };
 

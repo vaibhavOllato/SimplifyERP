@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useProductContext } from "../context/ProductContext";
+import { useNotification } from "../context/NotificationProvider";
 
 const Inventory = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
+  const { triggerNotification } = useNotification();
   // const [totalProducts, setTotalProducts] = useState(0);
   const [inventory, setInventory] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -41,10 +43,12 @@ const Inventory = () => {
           }))
         );
         setTotalProducts(response.data.totalProducts);
-        // setTotalProductss(products.length); 
-        setTotalProducts(products.length); 
+        // setTotalProductss(products.length);
+        setTotalProducts(products.length);
+        // triggerNotification("Inventory loaded successfully!", "success");
       } catch (error) {
         console.error("Error fetching inventory:", error);
+        triggerNotification("Failed to load inventory.", "error");
       }
     };
 
@@ -97,8 +101,9 @@ const Inventory = () => {
           },
         ]);
 
-          // 👇 Increment totalProducts here
-  setTotalProducts((prev) => prev + 1);
+        // 👇 Increment totalProducts here
+        setTotalProducts((prev) => prev + 1);
+        triggerNotification("Product added successfully!", "success");
 
         setShowModal(false);
         setNewProduct({
@@ -116,10 +121,15 @@ const Inventory = () => {
         error?.response?.data?.message ===
         "Product with this code already exists for the shop"
       ) {
-        alert("This product code already exists for the shop.");
+        // alert("This product code already exists for the shop.");
+        triggerNotification("This product code already exists.", "error");
       } else {
         console.error("Error adding product:", error);
-        alert("Failed to add product. Please try again.");
+        // alert("Failed to add product. Please try again.");
+        triggerNotification(
+          "Failed to add product. Please try again.",
+          "error"
+        );
       }
     }
   };

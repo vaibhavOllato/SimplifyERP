@@ -23,6 +23,7 @@ import {
   BarElement,
 } from "chart.js";
 import { useProductContext } from "../context/ProductContext";
+import { useNotification } from "../context/NotificationProvider";
 
 // Register necessary chart components
 ChartJS.register(
@@ -38,14 +39,11 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+  const { triggerNotification } = useNotification();
   const [totalCustomers, setTotalCustomers] = useState(0);
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const { totalProducts } = useProductContext();
 
-    // Just for debug: check value
-    console.log("Total Products from Context:", totalProducts);
-
-    
   const stats = [
     {
       title: "Total Stocks",
@@ -75,23 +73,24 @@ const Dashboard = () => {
         const shopId = sessionStorage.getItem("shopId");
 
         if (!shopId) {
-          console.error("Shop ID is not available in session storage.");
+          // console.error("Shop ID is not available in session storage.");
+          triggerNotification(
+            "Shop ID is not available in session storage.",
+            "error"
+          );
           return;
         }
 
-        const response = await axios.get(
-         `${apiUrl}/customers/counts-by-shop`,
-          {
-            params: {
-              shopId: shopId, // Pass the dynamic shopId from session
-            },
-          }
-        );
+        const response = await axios.get(`${apiUrl}/customers/counts-by-shop`, {
+          params: {
+            shopId: shopId,
+          },
+        });
 
         // Ensure the response format is correct
         const customerCount =
           response.data.shopCustomerCounts?.[0]?.totalCustomers || 0;
-        console.log("Customer count:", customerCount); // Verify the customer count
+        console.log("Customer count:", customerCount);
 
         setTotalCustomers(customerCount); // Set state with customer count
       } catch (error) {

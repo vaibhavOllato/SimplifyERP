@@ -3,9 +3,11 @@ import axios from "axios";
 import ShopDetails from "./ShopDetails";
 // import ShopRegisterForm from "./ShopRegisterForm";
 import { useNavigate } from "react-router-dom";
+import { useNotification } from "../context/NotificationProvider";
 
 const ShopPage = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
+  const { triggerNotification } = useNotification();
   const [shop, setShop] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ const ShopPage = () => {
 
         if (!userId) {
           console.error("No userId found in sessionStorage.");
+          triggerNotification("User not logged in", "error");
           setLoading(false);
           return;
         }
@@ -31,17 +34,18 @@ const ShopPage = () => {
         setShop(shopData);
 
         if (shopData) {
-          sessionStorage.setItem("shopRegistered", "true"); 
+          sessionStorage.setItem("shopRegistered", "true");
           sessionStorage.setItem("shopId", shopData.shopId);
+          // triggerNotification("Shop details loaded successfully", "success");
           console.log();
-          
         } else {
-          sessionStorage.removeItem("shopRegistered"); 
+          sessionStorage.removeItem("shopRegistered");
           sessionStorage.removeItem("shopId");
-
+          triggerNotification("No shop found for the user", "warning");
         }
       } catch (error) {
         console.error("Error fetching shop details:", error);
+        triggerNotification("Failed to fetch shop details", "error");
       } finally {
         setLoading(false);
       }

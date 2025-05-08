@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaSearch, FaPlus } from "react-icons/fa";
+// import { useNotification } from "../context/NotificationProvider";
 import { useNotification } from "../context/NotificationProvider";
+
 
 const CustomerListPage = () => {
   const { triggerNotification } = useNotification();
@@ -22,10 +24,11 @@ const CustomerListPage = () => {
       });
       setCustomers(res.data.customers || []);
     } catch (err) {
-      triggerNotification({
-        type: "error",
-        message: "Failed to fetch customers!",
-      });
+      // triggerNotification({
+      //   type: "error",
+      //   message: "Failed to fetch customers!",
+      // });
+      triggerNotification("Failed to fetch customers!", "error");
     }
   };
 
@@ -45,10 +48,11 @@ const CustomerListPage = () => {
     const { name, phone, email } = formData;
     if (!name || !phone || !email) {
       // toast.warning("All fields are required");
-      triggerNotification({
-        type: "error",
-        message: "All fields are required",
-      });
+      // triggerNotification({
+      //   type: "error",
+      //   message: "All fields are required",
+      // });
+      triggerNotification("All fields are required", "error");
       return;
     }
 
@@ -61,19 +65,21 @@ const CustomerListPage = () => {
         shopId,
       });
       // toast.success("Customer added successfully");
-      triggerNotification({
-        type: "success",
-        message: "Customer added successfully",
-      });
+      // triggerNotification({
+      //   type: "success",
+      //   message: "Customer added successfully",
+      // });
+      triggerNotification("Customer added successfully", "success");
       setFormData({ name: "", phone: "", email: "" });
       setShowForm(false);
       fetchCustomers();
     } catch (err) {
       // toast.error(err.response?.data?.message || "Error adding customer");
-      triggerNotification({
-        type: "error",
-        message: err.response?.data?.message || "Error adding customer",
-      });
+      // triggerNotification({
+      //   type: "error",
+      //   message: err.response?.data?.message || "Error adding customer",
+      // });
+      triggerNotification(err.response?.data?.message || "Error adding customer", "success");
     } finally {
       setLoading(false);
     }

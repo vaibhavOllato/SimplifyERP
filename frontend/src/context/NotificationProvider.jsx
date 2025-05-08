@@ -1,33 +1,38 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useState, useContext } from "react";
 import Notification from "../components/Notification";
 
 const NotificationContext = createContext();
 
-export const useNotification = () => useContext(NotificationContext);
-
 export const NotificationProvider = ({ children }) => {
-  const [notification, setNotification] = useState(null);
+  const [notifications, setNotifications] = useState([]);
 
-  const triggerNotification = ({ type = "success", message }) => {
-    setNotification({ type, message });
+  const triggerNotification = (message, type = "success") => {
+    const id = Date.now(); // Unique ID
+    setNotifications((prev) => [...prev, { id, message, type }]);
 
+    // Auto-remove after 3 seconds
     setTimeout(() => {
-      setNotification(null);
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
     }, 3000);
   };
-
-  const closeNotification = () => setNotification(null);
 
   return (
     <NotificationContext.Provider value={{ triggerNotification }}>
       {children}
-      {notification && (
-        <Notification
-          type={notification.type}
-          message={notification.message}
-          onClose={closeNotification}
-        />
-      )}
+      <div className="fixed top-0 left-0 w-full flex flex-col items-center space-y-2 z-[9999]">
+        {notifications.map((n) => (
+          <Notification
+            key={n.id}
+            message={n.message}
+            type={n.type}
+            onClose={() =>
+              setNotifications((prev) => prev.filter((nt) => nt.id !== n.id))
+            }
+          />
+        ))}
+      </div>
     </NotificationContext.Provider>
   );
 };
+
+export const useNotification = () => useContext(NotificationContext);

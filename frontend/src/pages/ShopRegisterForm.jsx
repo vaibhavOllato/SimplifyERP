@@ -34,26 +34,6 @@ const ShopRegisterForm = () => {
     name: "taxRates",
   });
 
-  // if (sessionStorage.getItem("shopRegistered") === "true") {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-[60vh]">
-  //       <div className="bg-white p-8 rounded-lg shadow-lg text-center max-w-md">
-  //         <img
-  //           src="https://cdn-icons-png.flaticon.com/512/190/190411.png"
-  //           alt="Registered"
-  //           className="w-20 h-20 mx-auto mb-4"
-  //         />
-  //         <h2 className="text-2xl font-bold text-cyan-600 mb-2">
-  //           Shop Already Registered
-  //         </h2>
-  //         <p className="text-gray-600">
-  //           You have already registered your shop. Thank you!
-  //         </p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     const userProfile = JSON.parse(sessionStorage.getItem("userProfile"));
@@ -64,10 +44,11 @@ const ShopRegisterForm = () => {
       await axios.post(`${apiUrl}/shops/register`, payload, {
         withCredentials: true,
       });
-      triggerNotification({
-        type: "success",
-        message: "Shop registered successfully!",
-      });
+      // triggerNotification({
+      //   type: "success",
+      //   message: "Shop registered successfully!",
+      // });
+      triggerNotification("Shop registered successfully!", "success");
       sessionStorage.setItem("shopRegistered", "true");
       reset();
 
@@ -78,10 +59,11 @@ const ShopRegisterForm = () => {
     } catch (err) {
       console.error("Error registering shop:", err);
       // triggerNotification("Error registering shop");
-      triggerNotification({
-        type: "error",
-        message: "Error registering shop",
-      });
+      // triggerNotification({
+      //   type: "error",
+      //   message: "Error registering shop",
+      // });
+      triggerNotification("Error registering shop", "error");
     } finally {
       setIsSubmitting(false);
     }
