@@ -79,6 +79,7 @@ const ManageShops = () => {
               <th className="py-4 px-6 text-center">Sr. No.</th>
               <th className="px-6 py-4 text-center">Shop ID</th>
               <th className="px-6 py-4 text-center">Shop Name</th>
+              <th className="px-6 py-4 text-center">Shop Type</th>
               <th className="px-6 py-4 text-center">Owner</th>
               <th className="px-6 py-4 text-center">Status</th>
               <th className="px-6 py-4 text-center">Actions</th>
@@ -97,8 +98,12 @@ const ManageShops = () => {
                     {shop.shopName}
                   </td>
                   <td className="px-6 py-4 text-center text-gray-700">
+                    {shop.shopType}
+                  </td>
+                  <td className="px-6 py-4 text-center text-gray-700">
                     {shop.ownerName}
                   </td>
+                  
                   <td className="px-6 py-4 text-center">
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-semibold ${

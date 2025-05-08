@@ -1,11 +1,11 @@
-// import { Link, Outlet, useLocation } from "react-router-dom";
+// import Sidebar from "../components/Sidebar";
+// import Header from "../components/Header";
 // import LogoutModal from "../components/LogoutModal";
+// import { Outlet } from "react-router-dom";
 // import { useState } from "react";
-// import { LogOut } from "lucide-react"; // Optional icon if you use lucide
 
 // const AdminLayout = () => {
 //   const [isModalOpen, setIsModalOpen] = useState(false);
-//   const location = useLocation();
 
 //   const openLogoutModal = () => setIsModalOpen(true);
 //   const closeLogoutModal = () => setIsModalOpen(false);
@@ -14,54 +14,20 @@
 //     window.location.href = "/admin/login";
 //   };
 
-//   const navLinks = [
-//     { path: "/admin/dashboard", label: "Dashboard" },
-//     { path: "/admin/manage-shops", label: "Manage Shops" },
-//     { path: "/admin/manage-users", label: "Manage Users" },
-//     { path: "/admin/reports", label: "Reports & Analytics" },
-//   ];
-
 //   return (
-//     <div className="flex min-h-screen text-gray-800">
-//       {/* Sidebar */}
-//       <aside className="w-64 bg-gray-900 text-white flex flex-col justify-between py-6 px-4">
-//         <div>
-//           <h2 className="text-2xl font-bold mb-8 text-cyan-400">SimplifyERP</h2>
-//           <nav>
-//             <ul className="space-y-3">
-//               {navLinks.map((link) => (
-//                 <li key={link.path}>
-//                   <Link
-//                     to={link.path}
-//                     className={`block px-3 py-2 rounded-lg ${
-//                       location.pathname === link.path
-//                         ? "bg-cyan-600 text-white"
-//                         : "hover:bg-gray-700"
-//                     }`}
-//                   >
-//                     {link.label}
-//                   </Link>
-//                 </li>
-//               ))}
-//             </ul>
-//           </nav>
-//         </div>
+//     <div className="flex min-h-screen">
+//       {/* Fixed Sidebar */}
+//       <div className="h-screen w-64 flex-shrink-0">
+//         <Sidebar openLogoutModal={openLogoutModal} />
+//       </div>
 
-//         {/* Logout button */}
-//         <div>
-//           <button
-//             onClick={openLogoutModal}
-//             className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-red-600 hover:bg-red-700 text-white"
-//           >
-//             <LogOut size={18} /> Logout
-//           </button>
-//         </div>
-//       </aside>
-
-//       {/* Main Content */}
-//       <main className="flex-1 p-6 bg-gray-50 overflow-y-auto">
-//         <Outlet />
-//       </main>
+//       {/* Main Area */}
+//       <div className="flex-1 flex flex-col h-screen overflow-hidden">
+//         <Header />
+//         <main className="flex-1 overflow-y-auto bg-gray-50 p-6">
+//           <Outlet />
+//         </main>
+//       </div>
 
 //       {/* Logout Modal */}
 //       <LogoutModal
@@ -75,7 +41,6 @@
 
 // export default AdminLayout;
 
-
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import LogoutModal from "../components/LogoutModal";
@@ -83,8 +48,10 @@ import { Outlet } from "react-router-dom";
 import { useState } from "react";
 
 const AdminLayout = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const openLogoutModal = () => setIsModalOpen(true);
   const closeLogoutModal = () => setIsModalOpen(false);
   const handleLogout = () => {
@@ -93,25 +60,37 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="flex min-h-screen">
-      {/* Fixed Sidebar */}
-      <div className="h-screen w-64 flex-shrink-0">
-        <Sidebar openLogoutModal={openLogoutModal} />
+    <div className="min-h-screen bg-gray-100 relative">
+      {/* Sidebar (absolute positioning so it doesn't affect the content) */}
+      <div
+        className={`${
+          isSidebarOpen ? "w-64" : "w-16"
+        } fixed top-0 left-0 z-40 h-screen bg-gray-900 text-white transition-all duration-300`}
+      >
+        <Sidebar
+          isOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+          openLogoutModal={openLogoutModal}
+        />
       </div>
 
-      {/* Main Area */}
-      <div className="flex-1 flex flex-col h-screen overflow-hidden">
+      {/* Main Content Area */}
+      <div
+        className={`${
+          isSidebarOpen ? "pl-64" : "pl-16"
+        } transition-all duration-300`}
+      >
         <Header />
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-6">
+        <main className="p-6">
           <Outlet />
         </main>
       </div>
 
-      {/* Logout Modal */}
+      {/* Logout modal */}
       <LogoutModal
-        isOpen={isModalOpen}
-        closeModal={closeLogoutModal}
-        handleLogout={handleLogout}
+        isOpen={isModalOpen} // Pass the modal state here
+        closeModal={closeLogoutModal} // Pass close function
+        handleLogout={handleLogout} // Pass logout handler
       />
     </div>
   );
