@@ -7,6 +7,7 @@ import { useNotification } from "../context/NotificationProvider";
 
 const LoginPage = () => {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
+  // const [loginData, setLoginData] = useState({ email: "", password: "" });
   const { triggerNotification } = useNotification();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -14,25 +15,49 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   try {
+  //     const res = await axios.post(`${baseURL}/admin/login`, loginData, { withCredentials: true });
+  //     localStorage.setItem("adminToken", res.data.token);
+  //     // window.location.href = "/admin/dashboard";
+  //     triggerNotification("Login successful!", "success");
+  //     navigate("/admin/dashboard");
+  //   } catch (err) {
+  //     // alert("Login failed");
+  //     triggerNotification(message, "error");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  const loginData = {
+    email,
+    password,
+  };
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post(`${baseURL}/admin/login`, {
-        email,
-        password,
-      });
+      // Use baseURL from the .env variable
+      const res = await axios.post(
+        `${baseURL}/admin/login`,
+        loginData,
+        { withCredentials: true }
+      );
+      console.log("Login Data: ", loginData); // Check if it has email and password
+
       localStorage.setItem("adminToken", res.data.token);
-      // window.location.href = "/admin/dashboard";
       triggerNotification("Login successful!", "success");
       navigate("/admin/dashboard");
     } catch (err) {
-      // alert("Login failed");
-      triggerNotification(message, "error");
+      const errorMessage = err.response?.data?.message || "Login failed.";
+      triggerNotification(errorMessage, "error");
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-700 via-indigo-800 to-black flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 const adminAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
-  console.log("Authorization Header:", authHeader);
+  // console.log("Authorization Header:", authHeader);
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ message: "Access denied." });
   }

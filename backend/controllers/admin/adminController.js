@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export const adminLogin = async (req, res) => {
+  console.log('Admin login route hit', req.body);
   const { email, password } = req.body;
 
   try {
@@ -17,7 +18,7 @@ export const adminLogin = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
-    console.log(token);
+    // console.log(token);
     
 
     res.json({ token, admin: { id: admin._id, email: admin.email } });
