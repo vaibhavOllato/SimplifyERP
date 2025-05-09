@@ -1,33 +1,20 @@
-// import express from 'express';
-// // import { createShop, getAllShops } from '../controllers/createShopController.js';
-// import { registerShop, getShopDetails, deleteShop, updateShop } from '../controllers/createShopController.js';
-
-// import  authMiddleware  from '../middleware/authMiddleware.js';
-
-// const router = express.Router();
-
-// router.post("/shop-register", createShop);
-// // router.get('/all-shops', getAllShops); 
-
-
-// router.post('/create', authMiddleware, createShop);
-// // router.get('/all', protect, getAllShops);
-// router.get('/myShop', authMiddleware, getMyShops);
-// export default router;  // This ensures default export is provided
-
-
 import express from "express";
 import {
   registerShop,
   getShopDetails,
   updateShop,
   deleteShop,
+  // approveShop ,
 } from "../controllers/createShopController.js";
+// import { isAdmin } from '../middleware/authMiddleware.js'; 
+// import isAdmin  from '../middleware/adminAuth.js';
 
 const router = express.Router();
 
 // Route to register a new shop
 router.post("/shop-register", registerShop);
+
+// router.patch('/approve/:shopId', isAdmin, approveShop);
 
 // Route to get shop details for a specific userId
 router.get("/user/:userId", getShopDetails);

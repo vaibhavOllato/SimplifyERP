@@ -9,12 +9,13 @@ const taxRateSchema = new mongoose.Schema({
 
 // Shop Schema
 const shopSchema = new mongoose.Schema({
-  shopId: { type: String, unique: true }, // Unique Shop Identifier
-  
+  // shopId: { type: String, unique: true }, // Unique Shop Identifier
+  shopId: { type: String, unique: true },
+
   userId: {
     type: String, // UserId is of type String to match your custom format.
     required: true,
-    ref: "User",  // Reference to User collection
+    ref: "User", // Reference to User collection
   },
 
   shopName: { type: String, required: true },
@@ -24,17 +25,23 @@ const shopSchema = new mongoose.Schema({
   phone: { type: String }, // Shop Phone Number
   email: { type: String }, // Shop Email
   website: { type: String }, // Shop Website
-  
+
   openingTime: { type: String }, // Shop Opening Time
   closingTime: { type: String }, // Shop Closing Time
-  
+
   gstNumber: { type: String }, // GST Number
-  
+
   taxRates: [taxRateSchema], // Array of tax rate objects
 
   verified: { type: Boolean, default: false }, // Shop Verification Status
   ownerName: { type: String, required: true }, // Shop Owner Name
   createdAt: { type: Date, default: Date.now }, // Date of Shop Creation
+
+  status: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected'],
+    default: 'pending'
+  },
 });
 
 // Pre-save Hook to Generate Unique ShopId

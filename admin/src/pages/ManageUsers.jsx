@@ -100,7 +100,7 @@ const ManageUsers = () => {
                 >
                   <td className="py-4 px-6 text-center">{index + 1}</td>
                   <td className="px-6 py-4 text-center">{user.userId}</td>
-                  <td className="px-6 py-4 font-semibold text-gray-800 text-center">
+                  <td className="px-6 py-4 font-medium text-gray-800 text-center">
                     {user.firstName} {user.lastName}
                   </td>
                   <td className="px-6 py-4 text-gray-700 text-center">

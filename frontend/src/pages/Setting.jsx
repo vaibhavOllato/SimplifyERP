@@ -134,10 +134,10 @@ const Settings = () => {
             )}
           </div>
           <div>
-            <h3 className="text-xl font-medium text-gray-700">
+            <h3 className="text-2xl font-bold text-cyan-700">
               {profile.firstName} {profile.lastName}
             </h3>
-            <p className="text-sm text-gray-500">{profile.email}</p>
+            <p className="text-sm text-gray-500">{profile.userId}</p>
           </div>
         </div>
 

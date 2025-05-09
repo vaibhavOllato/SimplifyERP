@@ -23,10 +23,20 @@ const Sidebar = ({ isOpen, toggleSidebar, openLogoutModal }) => {
       path: "/admin/manage-users",
       label: "Manage Users",
       icon: <User size={18} />,
-    },
+    }, 
     {
       path: "/admin/reports",
       label: "Reports & Analytics",
+      icon: <BarChart size={18} />,
+    }, 
+    {
+      path: "/admin/approveShop",
+      label: "Approval shop",
+      icon: <BarChart size={18} />,
+    },
+    {
+      path: "/admin/newNotifyShop",
+      label: "New  shop",
       icon: <BarChart size={18} />,
     },
   ];

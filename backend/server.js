@@ -123,6 +123,7 @@ import orderRoutes from "./routes/orderRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import shopAdminRoutes from "./routes/adminShopRoutes.js";
 import vendorRoutes from './routes/vendorRoutes.js';
+import billRoutes from './routes/billRoutes.js';
 
 dotenv.config();
 
@@ -191,6 +192,8 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/admin", shopAdminRoutes);
 
 app.use('/api/vendors', vendorRoutes);
+
+app.use('/api/bills', billRoutes);
 
 // MongoDB connection
 mongoose

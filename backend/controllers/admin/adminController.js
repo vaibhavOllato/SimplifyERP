@@ -21,7 +21,13 @@ export const adminLogin = async (req, res) => {
     // console.log(token);
     
 
-    res.json({ token, admin: { id: admin._id, email: admin.email } });
+    // res.json({ token, admin: { id: admin._id, email: admin.email } });
+    res.json({
+      token,
+      adminId: admin._id,
+      adminEmail: admin.email
+    });
+    
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
