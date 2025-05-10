@@ -7,7 +7,7 @@ import {
   Box,
   User,
   BarChart,
-} from "lucide-react"; 
+} from "lucide-react";
 
 const Sidebar = ({ isOpen, toggleSidebar, openLogoutModal }) => {
   const location = useLocation();
@@ -23,22 +23,13 @@ const Sidebar = ({ isOpen, toggleSidebar, openLogoutModal }) => {
       path: "/admin/manage-users",
       label: "Manage Users",
       icon: <User size={18} />,
-    }, 
+    },
     {
       path: "/admin/reports",
       label: "Reports & Analytics",
       icon: <BarChart size={18} />,
-    }, 
-    {
-      path: "/admin/approveShop",
-      label: "Approval shop",
-      icon: <BarChart size={18} />,
     },
-    {
-      path: "/admin/newNotifyShop",
-      label: "New  shop",
-      icon: <BarChart size={18} />,
-    },
+    
   ];
 
   return (
@@ -72,10 +63,10 @@ const Sidebar = ({ isOpen, toggleSidebar, openLogoutModal }) => {
                     to={link.path}
                     className={`flex items-center rounded-lg transition-all duration-300 ease-in-out
               ${isOpen ? "px-4 py-2 gap-3" : "p-3 justify-center"} 
-              ${isActive ? "bg-cyan-600 shadow-md" : "hover:bg-gray-800"} 
+              ${isActive ? "bg-cyan-700 shadow-md" : "hover:bg-gray-800"} 
               ${
                 isActive
-                  ? "border-l-4 border-cyan-400"
+                  ? "border-l-4 border-[#d81159]"
                   : "border-l-4 border-transparent"
               }`}
                   >

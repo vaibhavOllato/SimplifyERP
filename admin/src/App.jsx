@@ -12,8 +12,8 @@ import ManageShops from "./pages/ManageShops";
 import ManageUsers from "./pages/ManageUsers";
 import ReportsAnalytics from "./pages/ReportsAnalytics";
 import { NotificationProvider } from "./context/NotificationProvider";
-import ApproveShop from "./pages/ApproveShop";
-import NewShopNotification from "./pages/NewShopNotification";
+// import ApproveShop from "./pages/ApproveShop";
+// import NewShopNotification from "./pages/NewShopNotification";
 
 
 function App() {
@@ -38,8 +38,8 @@ function App() {
           <Route path="manage-shops" element={<ManageShops />} />
           <Route path="manage-users" element={<ManageUsers />} />
           <Route path="reports" element={<ReportsAnalytics />} />
-          <Route path="approveShop" element={<ApproveShop />} />
-          <Route path="newNotifyShop" element={<NewShopNotification />} />
+          {/* <Route path="approveShop" element={<ApproveShop />} /> */}
+          {/* <Route path="newNotifyShop" element={<NewShopNotification />} /> */}
           {/* Add more nested routes here */}
         </Route>
       </Routes>

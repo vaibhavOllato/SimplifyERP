@@ -45,7 +45,7 @@ const LoginPage = () => {
         loginData,
         { withCredentials: true }
       );
-      console.log("Login Data: ", loginData); // Check if it has email and password
+      console.log("Login Data: ", loginData); 
 
       localStorage.setItem("adminToken", res.data.token);
       triggerNotification("Login successful!", "success");

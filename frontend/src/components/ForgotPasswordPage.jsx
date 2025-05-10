@@ -20,19 +20,13 @@ const ForgotPasswordPage = () => {
       setMessage(res.data.message);
       setMessageType("success");
       // triggerNotification(res.data.message, "success");
-      triggerNotification({
-        type: "success",
-        message: res.data.message || "success",
-      });
+      
     } catch (err) {
       const errorMsg = err.response?.data?.message || "Something went wrong";
       setMessage("Error: " + errorMsg);
       setMessageType("error");
       // triggerNotification("Error: " + errorMsg, "error");
-      triggerNotification({
-        type: "success",
-        message: "Error: " + errorMsg || "error",
-      });
+      
     }
   };
 

@@ -86,7 +86,7 @@ const ManageUsers = () => {
               <th className="px-6 py-4 text-center">Name</th>
               <th className="px-6 py-4 text-center">Email</th>
               {/* <th className="px-6 py-4 text-center">Role</th> */}
-              <th className="px-6 py-4 text-center">Created At</th>
+              <th className="px-6 py-4 font-medium text-center">Created At</th>
               <th className="px-6 py-4 text-center">Actions</th>
             </tr>
           </thead>

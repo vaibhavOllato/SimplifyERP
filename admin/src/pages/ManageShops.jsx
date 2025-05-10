@@ -1,36 +1,89 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import io from "socket.io-client";
+import { useNotification } from "../context/NotificationProvider";
+
 
 const ManageShops = () => {
   const baseURL = import.meta.env.VITE_API_BASE_URL;
+  const { triggerNotification } = useNotification();
   const [shops, setShops] = useState([]);
-  const [search, setSearch] = useState("");
   const [shopCount, setShopCount] = useState(0);
+  const [search, setSearch] = useState("");
   const [selectedShop, setSelectedShop] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activatingShopId, setActivatingShopId] = useState(null);
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const fetchShopCount = async () => {
-      try {
-        const res = await axios.get(`${baseURL}/admin/shop-count-admin`);
-        setShopCount(res.data.count);
-      } catch (err) {
-        console.error("Error fetching shop count:", err);
-      }
-    };
+    const socketConnection = io(baseURL, {
+      transports: ["websocket"],
+    });
 
+    setSocket(socketConnection);
+
+    socketConnection.on("shopActivated", (shop) => {
+      console.log("Real-time activation:", shop);
+      setShops((prevShops) =>
+        prevShops.map((s) =>
+          s._id === shop._id ? { ...s, isActive: true } : s
+        )
+      );
+    });
+
+    return () => socketConnection.disconnect();
+  }, [baseURL]);
+
+  useEffect(() => {
     const fetchShops = async () => {
       try {
-        const res = await axios.get(`${baseURL}/admin/shops-admin`);
-        setShops(res.data);
+        const [countRes, shopRes] = await Promise.all([
+          axios.get(`${baseURL}/admin/shop-count-admin`),
+          axios.get(`${baseURL}/admin/shops-admin`),
+        ]);
+        setShopCount(countRes.data.count);
+        setShops(Array.isArray(shopRes.data) ? shopRes.data : []);
       } catch (err) {
         console.error("Error fetching shops:", err);
+        
       }
     };
 
-    fetchShopCount();
     fetchShops();
-  }, []);
+  }, [baseURL]);
+
+  const handleActivateShop = async (shopId) => {
+    setActivatingShopId(shopId);
+    const token = localStorage.getItem("adminToken");
+
+    try {
+      const res = await axios.post(
+        `${baseURL}/admin/activate-shop/${shopId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        // alert("Shop activated successfully!");
+        triggerNotification("Shop activated successfully!", "success");
+        setShops((prevShops) =>
+          prevShops.map((s) =>
+            s._id === shopId ? { ...s, isActive: true } : s
+          )
+        );
+      }
+    } catch (err) {
+      console.error("Activation failed:", err.response || err.message);
+      alert("Failed to activate shop.");
+      triggerNotification("Failed to activate shop.", "error");
+    } finally {
+      setActivatingShopId(null);
+    }
+  };
 
   const filteredShops = shops.filter((shop) =>
     shop.shopName.toLowerCase().includes(search.toLowerCase())
@@ -53,15 +106,8 @@ const ManageShops = () => {
           🛒 Manage Shops
         </h1>
         <button className="bg-cyan-600 text-white font-medium px-5 py-3 rounded-xl hover:bg-cyan-700 transition shadow-md">
-          + Add Shop
+          Total Shops: <span className="font-bold text-white">{shopCount}</span>
         </button>
-      </div>
-
-      <div className="mb-6">
-        <p className="text-lg text-gray-800">
-          Total Shops:{" "}
-          <span className="font-bold text-cyan-600">{shopCount}</span>
-        </p>
       </div>
 
       <input
@@ -76,9 +122,9 @@ const ManageShops = () => {
         <table className="w-full text-sm text-left">
           <thead className="bg-indigo-100 text-cyan-600 text-md uppercase tracking-wide">
             <tr>
-              <th className="py-4 px-6 text-center">Sr. No.</th>
+              <th className="py-4 px-6 text-center">#</th>
               <th className="px-6 py-4 text-center">Shop ID</th>
-              <th className="px-6 py-4 text-center">Shop Name</th>
+              <th className="px-6 py-4">Shop Name</th>
               <th className="px-6 py-4 text-center">Shop Type</th>
               <th className="px-6 py-4 text-center">Owner</th>
               <th className="px-6 py-4 text-center">Status</th>
@@ -88,52 +134,49 @@ const ManageShops = () => {
           <tbody>
             {filteredShops.length > 0 ? (
               filteredShops.map((shop, index) => (
-                <tr
-                  key={shop._id}
-                  className="border-t hover:bg-gray-50 transition"
-                >
-                  <td className="py-4 px-6 text-center">{index + 1}</td>
+                <tr key={shop._id} className="border-b">
+                  <td className="py-3 px-6 text-center">{index + 1}</td>
                   <td className="px-6 py-4 text-center">{shop.shopId}</td>
-                  <td className="px-6 py-4 text-center font-semibold text-gray-800">
-                    {shop.shopName}
-                  </td>
+                  <td className="py-3 px-6">{shop.shopName}</td>
                   <td className="px-6 py-4 text-center text-gray-700">
                     {shop.shopType}
                   </td>
                   <td className="px-6 py-4 text-center text-gray-700">
                     {shop.ownerName}
                   </td>
-                  
-                  <td className="px-6 py-4 text-center">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        shop.verified
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
-                    >
-                      {shop.verified ? "Verified" : "Not Verified"}
-                    </span>
+
+                  <td className="px-6 py-4 text-center text-gray-700">
+                    {!shop.isActive ? (
+                      <button
+                        onClick={() => handleActivateShop(shop._id)}
+                        disabled={activatingShopId === shop._id}
+                        className={`px-3 py-1 rounded text-white text-sm ${
+                          activatingShopId === shop._id
+                            ? "bg-blue-400 cursor-not-allowed"
+                            : "bg-cyan-600 hover:bg-cyan-700"
+                        }`}
+                      >
+                        {activatingShopId === shop._id
+                          ? "Activating..."
+                          : "Activate"}
+                      </button>
+                    ) : (
+                      <span className="text-sm text-green-600">✔ Actived</span>
+                    )}
                   </td>
-                  <td className="px-6 py-4 text-center space-x-3">
+                  <td className="py-3 px-6 flex gap-2">
                     <button
                       onClick={() => openModal(shop)}
-                      className="text-cyan-600 hover:underline font-medium"
+                      className="px-3 py-1 bg-gray-200 text-sm rounded hover:bg-gray-300"
                     >
                       View
-                    </button>
-                    <button className="text-yellow-600 hover:underline font-medium">
-                      Edit
-                    </button>
-                    <button className="text-red-600 hover:underline font-medium">
-                      Delete
                     </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="px-6 py-6 text-center text-gray-500">
+                <td colSpan="4" className="text-center py-6 text-gray-500">
                   No shops found.
                 </td>
               </tr>
@@ -151,43 +194,43 @@ const ManageShops = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-800">
               <div>
-                <p className="font-semibold">Shop ID:</p>
+                <p className="font-semibold text-gray-500">Shop ID:</p>
                 <p>{selectedShop.shopId}</p>
               </div>
               <div>
-                <p className="font-semibold">Shop Name:</p>
+                <p className="font-semibold text-gray-500">Shop Name:</p>
                 <p>{selectedShop.shopName}</p>
               </div>
               <div>
-                <p className="font-semibold">Shop Type:</p>
+                <p className="font-semibold text-gray-500">Shop Type:</p>
                 <p>{selectedShop.shopType}</p>
               </div>
               <div>
-                <p className="font-semibold">Owner Name:</p>
+                <p className="font-semibold text-gray-500">Owner Name:</p>
                 <p>{selectedShop.ownerName}</p>
               </div>
               <div>
-                <p className="font-semibold">Address:</p>
+                <p className="font-semibold text-gray-500">Address:</p>
                 <p>{selectedShop.address}</p>
               </div>
               <div>
-                <p className="font-semibold">Phone:</p>
+                <p className="font-semibold text-gray-500">Phone:</p>
                 <p>{selectedShop.phone}</p>
               </div>
               <div>
-                <p className="font-semibold">Email:</p>
+                <p className="font-semibold text-gray-500">Email:</p>
                 <p>{selectedShop.email}</p>
               </div>
               <div>
-                <p className="font-semibold">Website:</p>
+                <p className="font-semibold text-gray-500">Website:</p>
                 <p>{selectedShop.website}</p>
               </div>
               <div>
-                <p className="font-semibold">Opening Time:</p>
+                <p className="font-semibold text-gray-500">Opening Time:</p>
                 <p>{selectedShop.openingTime}</p>
               </div>
               <div>
-                <p className="font-semibold">Closing Time:</p>
+                <p className="font-semibold text-gray-500">Closing Time:</p>
                 <p>{selectedShop.closingTime}</p>
               </div>
             </div>

@@ -42,6 +42,8 @@ const shopSchema = new mongoose.Schema({
     enum: ['pending', 'approved', 'rejected'],
     default: 'pending'
   },
+    // ✅ Add this line
+  isActive: { type: Boolean, default: false },
 });
 
 // Pre-save Hook to Generate Unique ShopId

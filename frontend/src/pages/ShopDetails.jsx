@@ -52,12 +52,12 @@ const ShopDetails = ({ shop }) => {
           </div>
           <span
             className={`text-xs font-semibold px-3 py-1 rounded-full ${
-              shop.status === "Active"
+              shop.isActive
                 ? "bg-green-100 text-green-700"
                 : "bg-red-100 text-red-600"
             }`}
           >
-            {shop.status || "Inactive"}
+            {shop.isActive ? "Active" : "Inactive"}
           </span>
         </div>
 
@@ -187,20 +187,18 @@ const ShopDetails = ({ shop }) => {
           </div>
         )}
 
-        {/* Verification Status */}
-        <div className="flex items-center gap-2 text-sm text-gray-700">
-          {shop.verified ? (
-            <FaCheckCircle className="text-green-500" />
-          ) : (
-            <FaTimesCircle className="text-red-500" />
-          )}
-          <span>{shop.verified ? "Verified Shop" : "Not Verified"}</span>
-        </div>
-
         {/* Created Date */}
         <div className="flex items-center gap-2 text-sm text-gray-600">
           <FaCalendarAlt className="text-gray-500" />
-          Created At: {new Date(shop.createdAt).toLocaleString()}
+          Created At:{" "}
+          {new Date(shop.createdAt).toLocaleString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          })}
         </div>
 
         {/* Social Links */}

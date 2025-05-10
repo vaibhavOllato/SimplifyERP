@@ -1,100 +1,6 @@
 import Shop from "../models/Shop.js";
 import nodemailer from "nodemailer";
 
-// const ADMIN_EMAIL = "vaibhav.ollato@gmail.com";
-
-// Controller to Register a Shop for a User
-// export const registerShop = async (req, res) => {
-//   const {
-//     userId,
-//     shopName,
-//     shopType,
-//     secondaryCategories,
-//     address,
-//     phone,
-//     email,
-//     website,
-//     openingTime,
-//     closingTime,
-//     gstNumber,
-//     taxRates,
-//     ownerName, // Shop Owner Name
-//   } = req.body;
-
-//   if (
-//     !userId ||
-//     !shopName ||
-//     !shopType ||
-//     !address ||
-//     !gstNumber ||
-//     !taxRates ||
-//     !Array.isArray(taxRates) ||
-//     !ownerName // Ensure ownerName is provided
-//   ) {
-//     return res
-//       .status(400)
-//       .json({ message: "All required fields must be provided." });
-//   }
-
-//   try {
-//     // Create new Shop instance
-//     const newShop = new Shop({
-//       userId,
-//       shopName,
-//       shopType,
-//       secondaryCategories,
-//       address,
-//       phone,
-//       email,
-//       website,
-//       openingTime,
-//       closingTime,
-//       gstNumber,
-//       taxRates,
-//       ownerName,
-//       isActive: false,
-//     });
-
-//     // Save the shop
-//     await newShop.save();
-
-//     // Send email to admin
-//     const transporter = nodemailer.createTransport({
-//       service: "gmail",
-//       auth: {
-//         user: "yourgmail@gmail.com",
-//         pass: "your-app-password",
-//       },
-//     });
-
-//     const mailOptions = {
-//       from: "yourgmail@gmail.com",
-//       to: ADMIN_EMAIL,
-//       subject: "New Shop Registration Request",
-//       html: `
-//         <h3>New Shop Registration</h3>
-//         <p><strong>Shop Name:</strong> ${shopName}</p>
-//         <p><strong>Owner:</strong> ${ownerName}</p>
-//         <p><strong>Email:</strong> ${email}</p>
-//         <p><strong>Phone:</strong> ${phone}</p>
-//         <p><strong>GST:</strong> ${gstNumber}</p>
-//         <p>Please review and activate the shop in the admin panel.</p>
-//       `,
-//     };
-
-//     await transporter.sendMail(mailOptions);
-
-//     return res
-//       .status(201)
-//       .json({ message: "Shop registered successfully", shop: newShop });
-//   } catch (error) {
-//     console.error(error);
-//     return res
-//       .status(500)
-//       .json({ message: "Server error. Please try again later." });
-//   }
-// };
-
 export const registerShop = async (req, res) => {
   const {
     userId,
@@ -146,6 +52,13 @@ export const registerShop = async (req, res) => {
     });
 
     await newShop.save();
+
+    req.io.emit("shopRegistered", {
+      shopId: newShop.shopId,
+      shopName: newShop.shopName,
+      ownerName: newShop.ownerName,
+      createdAt: newShop.createdAt,
+    });
 
     console.log(
       process.env.EMAIL_USER,
