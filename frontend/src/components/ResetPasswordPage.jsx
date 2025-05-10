@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useParams
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./landing/Navbar";
 import Footer from "./landing/Footer";
 import { useNotification } from "../context/NotificationProvider";
 
 const ResetPasswordPage = () => {
-  const { triggerNotification } = useNotification(); // Use the notification hook
+  const { triggerNotification } = useNotification();
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
@@ -22,14 +22,10 @@ const ResetPasswordPage = () => {
     if (!password || password.trim().length < 8) {
       setMessage("Password must be at least 6 characters long.");
       setMessageType("error");
-      // triggerNotification(
-      //   "Password must be at least 6 characters long.",
-      //   "error"
-      // );
-      triggerNotification({
-        type: "error",
-        message: "Password must be at least 8 characters long.",
-      });
+      triggerNotification(
+        "Password must be at least 6 characters long.",
+        "error"
+      );
       return;
     }
 
@@ -39,11 +35,7 @@ const ResetPasswordPage = () => {
       });
       setMessage(res.data.message);
       setMessageType("success");
-      // triggerNotification(res.data.message, "success");
-      triggerNotification({
-        type: "error",
-        message: res.data.message|| "success",
-      });
+      triggerNotification(res.data.message, "success");
 
       setTimeout(() => {
         navigate("/login");
@@ -53,10 +45,10 @@ const ResetPasswordPage = () => {
         "Error: " + (err.response?.data?.message || "Something went wrong")
       );
       setMessageType("error");
-      triggerNotification({
-        type: "error",
-        message:  "Error: " + (err.response?.data?.message || "Something went wrong"),
-      });
+      triggerNotification(
+        "Error: " +
+          (err.response?.data?.message || "Something went wrong", "error")
+      );
     }
   };
 
@@ -119,16 +111,6 @@ const ResetPasswordPage = () => {
               Reset Password
             </button>
           </form>
-
-          {/* {message && (
-            <p
-              className={`mt-4 text-center text-sm ${
-                message.includes("Error") ? "text-red-500" : "text-green-500"
-              }`}
-            >
-              {message}
-            </p>
-          )} */}
         </div>
       </div>
       <Footer />

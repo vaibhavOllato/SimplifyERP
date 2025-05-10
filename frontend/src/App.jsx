@@ -1,70 +1,63 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import LandingPage from "./LandingPage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import Dashboard from "./pages/Dashboard";
-import Layout from "./layouts/Layout"; // Import the Layout component
-import InventoryPage from "./pages/InventoryPage";
-import Setting from "./pages/Setting";
-// import Orders from './pages/Orders';
-import OrderPage from "./pages/OrderPage";
-import Settings from "./pages/Setting";
-import CustomerListPage from "./pages/CustomerListPage";
 import { NotificationProvider } from "./context/NotificationProvider";
 import { AuthProvider } from "./context/AuthContext";
-import ShopPage from "./pages/ShopPage";
-import ShopRegisterForm from "./pages/ShopRegisterForm";
-import ForgotPasswordPage from "./components/ForgotPasswordPage";
-import ResetPasswordPage from "./components/ResetPasswordPage";
-import HelpCenter from "./pages/HelpCenter";
 import { ProductProvider } from "./context/ProductContext";
-import VendorsList from "./pages/purchasesItems/VendorsList";
-import PaymentCredits from "./pages/purchasesItems/PaymentCredits";
-import PurchasesOrders from "./pages/purchasesItems/PurchasesOrders";
-import PurchasesReceived from "./pages/purchasesItems/PurchasesReceived";
-import Bills from "./pages/purchasesItems/Bills";
-// import { ShopProvider } from './context/ShopContext';
+import Loader from "./components/Loader";
+import PurchasesPage from "./pages/PurchasesPage";
+
+// Lazy-loaded pages
+const LandingPage = lazy(() => import("./LandingPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const RegisterPage = lazy(() => import("./pages/RegisterPage"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Layout = lazy(() => import("./layouts/Layout"));
+const InventoryPage = lazy(() => import("./pages/InventoryPage"));
+const Setting = lazy(() => import("./pages/Setting"));
+const OrderPage = lazy(() => import("./pages/OrderPage"));
+const CustomerListPage = lazy(() => import("./pages/CustomerListPage"));
+const ShopPage = lazy(() => import("./pages/ShopPage"));
+const ShopRegisterForm = lazy(() => import("./pages/ShopRegisterForm"));
+const ForgotPasswordPage = lazy(() => import("./components/ForgotPasswordPage"));
+const ResetPasswordPage = lazy(() => import("./components/ResetPasswordPage"));
+const HelpCenter = lazy(() => import("./pages/HelpCenter"));
+const VendorsList = lazy(() => import("./pages/purchasesItems/VendorsList"));
+const PaymentCredits = lazy(() => import("./pages/purchasesItems/PaymentCredits"));
+const PurchasesOrders = lazy(() => import("./pages/purchasesItems/PurchasesOrders"));
+const PurchasesReceived = lazy(() => import("./pages/purchasesItems/PurchasesReceived"));
+const Bills = lazy(() => import("./pages/purchasesItems/Bills"));
 
 const App = () => {
   return (
     <AuthProvider>
       <NotificationProvider>
         <ProductProvider>
-          <Routes>
-            {/* Landing Page does not need Layout, so we keep it separate */}
-            <Route path="/" element={<LandingPage />} />
+          <Suspense fallback={<Loader message="Loading SimplifyERP..." />}>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
 
-            {/* For Login and Register pages, use them separately without the layout */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route
-              path="/reset-password/:token"
-              element={<ResetPasswordPage />}
-            />
-
-            <Route path="/" element={<Layout />}>
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="inventory" element={<InventoryPage />} />
-              <Route path="setting" element={<Settings />} />
-              <Route path="orders" element={<OrderPage />} />
-              <Route path="customers" element={<CustomerListPage />} />
-              <Route path="my-shop" element={<ShopPage />} />
-              <Route path="shop-register-form" element={<ShopRegisterForm />} />
-              <Route path="helpCenter" element={<HelpCenter />} />
-
-              <Route path="vendors" element={<VendorsList />} />
-              <Route path="payment-credits" element={<PaymentCredits />} />
-              <Route path="purchase-orders" element={<PurchasesOrders />} />
-              <Route
-                path="purchases-received"
-                element={<PurchasesReceived />}
-              />
-              <Route path="bills" element={<Bills />} />
-            </Route>
-          </Routes>
+              <Route path="/" element={<Layout />}>
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="inventory" element={<InventoryPage />} />
+                <Route path="setting" element={<Setting />} />
+                <Route path="orders" element={<OrderPage />} />
+                <Route path="customers" element={<CustomerListPage />} />
+                <Route path="my-shop" element={<ShopPage />} />
+                <Route path="shop-register-form" element={<ShopRegisterForm />} />
+                <Route path="helpCenter" element={<HelpCenter />} />
+                <Route path="vendors" element={<VendorsList />} />
+                <Route path="payment-credits" element={<PaymentCredits />} />
+                <Route path="purchase-orders" element={<PurchasesOrders />} />
+                <Route path="purchases-received" element={<PurchasesReceived />} />
+                <Route path="bills" element={<Bills />} />
+                <Route path="/purchases" element={<PurchasesPage />} />
+              </Route>
+            </Routes>
+          </Suspense>
         </ProductProvider>
       </NotificationProvider>
     </AuthProvider>
