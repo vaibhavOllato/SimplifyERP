@@ -33,11 +33,6 @@
 //   return transporter.sendMail(mailOptions);
 // };
 
-
-
-
-
-
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
